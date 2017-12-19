@@ -1,6 +1,48 @@
 # SpringTutorial – Learn Spring Framework step by step
-This Spring Tutorial provides basic and advanced concepts of Spring Framework. It's designed for beginners and professionals and it’s provides many step by step examples and explanations. The [Spring framework](http://www.springsource.org/) , created by <b>Rod Johnson</b>, is an extremely powerful Inversion of control(IoC) framework to helps decouple your project components’ dependencies.
+This Spring Tutorial Core Container use Eclipse IDE and Maven tool to build and manage depencencies of 
+the project. So you have to:
 
+1. Check [Maven repositry](https://mvnrepository.com/artifact/org.springframework/spring-core) to have a right spring dependency. For this tutorial we will use <b>spring 4.3.13 release</b>. It woulf look like this:
+```
+	<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-core</artifactId>
+	    <version>4.3.13.RELEASE</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-context</artifactId>
+	    <version>4.3.13.RELEASE</version>
+	</dependency>
+	<dependency>
+	    <groupId>org.springframework</groupId>
+	    <artifactId>spring-beans</artifactId>
+	    <version>4.3.13.RELEASE</version>
+	</dependency>
+```
+
+2. Add your Spring config file under the classpath src/main/java. I called it beans.xml. It describe beans class or POJO. 
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="emp1" class="com.ennva.Employee" init-method="myInit" destroy-method="myDestroy">
+		<property name="eid" value="101" />
+		<property name="ename" value="pippo1" />
+		<property name="eaddress" value="Via pippo 1" />
+	</bean>
+	<bean id="emp2" class="com.ennva.Employee">
+		<property name="eid" value="102" />
+		<property name="ename" value="pippo2" />
+		<property
+	</bean>
+</beans>
+```
+
+3. Test your code into App.java main class
+	
 ## Part 1: The Core Container
 The Core Container has Beans, Core, Context and Expression Language modules.
 
