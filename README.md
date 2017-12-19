@@ -20,29 +20,26 @@ the project. So you have to:
 	    <artifactId>spring-beans</artifactId>
 	    <version>4.3.13.RELEASE</version>
 	</dependency>
-	```
+```
 
 2. Add your Spring config file under the classpath src/main/java. I called it beans.xml. It describe beans class or POJO. 
-
-	```
-	<?xml version="1.0" encoding="UTF-8"?>
-	<beans xmlns="http://www.springframework.org/schema/beans"
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-		
-		<bean id="emp1" class="com.ennva.Employee" init-method="myInit" destroy-method="myDestroy">
+	<bean id="emp1" class="com.ennva.Employee" init-method="myInit" destroy-method="myDestroy">
 		<property name="eid" value="101" />
 		<property name="ename" value="pippo1" />
 		<property name="eaddress" value="Via pippo 1" />
 	</bean>
-	
 	<bean id="emp2" class="com.ennva.Employee">
 		<property name="eid" value="102" />
 		<property name="ename" value="pippo2" />
 		<property
-	
-	</beans>
-	```
+	</bean>
+</beans>
+```
 
 3. Test your code into App.java main class
 	
