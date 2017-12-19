@@ -36,4 +36,14 @@ Spring is great framework for development of Enterprise grade applications. It i
 The Spring Framework has been categorized into modules. All modules will not be used in an application, so every module is dependent on the type of application. There are 20 modules organized in Spring Framework. <b>Core Container, Data Access/Integration, Web, AOP (Aspect Oriented Programming), Instrumentation and Test are the groups </b>.
 
 A configuration model and a dependency injection mechanism belong to the core container located in the heart of framework. Beyond that, there are different application architectures such as transactional data, messaging, persistence and web for the foundational support. Servlet-based Spring MVC web-framework is also there in parallel with the Spring WebFlux reactive web framework. <br /><br />
-![image](https://i2.wp.com/www.dineshonjava.com/wp-content/uploads/2013/03/Spring-modules.png?resize=530%2C409&ssl=1)
+![image](https://i2.wp.com/www.dineshonjava.com/wp-content/uploads/2013/03/Spring-modules.png?resize=530%2C409&ssl=1) 
+<br />
+## How to do with this Tutorial
+
+Tutorial is divided in step or chapter.
+You have to switch between each branch to dive into any step. That is for example for Step1 <br />
+
+```
+git checkout step1
+```
+
