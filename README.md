@@ -21,6 +21,7 @@ the project. So you have to:
 	    <version>4.3.13.RELEASE</version>
 	</dependency>
 	```
+
 2. Add your Spring config file under the classpath src/main/java. I called it beans.xml. It describe beans class or POJO. 
 
 	```
@@ -41,8 +42,8 @@ the project. So you have to:
 		<property
 	
 	</beans>
-
 	```
+
 3. Test your code into App.java main class
 	
 ## Part 1: The Core Container
