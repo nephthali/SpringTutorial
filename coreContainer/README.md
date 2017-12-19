@@ -1,5 +1,5 @@
 # SpringTutorial – Learn Spring Framework step by step
-This Spring Tutorial Core Container use Eclipse IDE and Maven tool to build and manage depencencies of 
+This Spring Tutorial Core Container use Eclipse IDE and Maven tool to build and manage depencencies of
 the project. So you have to:
 
 1. Check [Maven repositry](https://mvnrepository.com/artifact/org.springframework/spring-core) to have a right spring dependency. For this tutorial we will use <b>spring 4.3.13 release</b>. It woulf look like this:
@@ -22,7 +22,7 @@ the project. So you have to:
 	</dependency>
 ```
 
-2. Add your Spring config file under the classpath src/main/java. I called it beans.xml. It describe beans class or POJO. 
+2. Add your Spring config file under the classpath src/main/java. I called it beans.xml. It describe beans class or POJO.
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -42,7 +42,7 @@ the project. So you have to:
 ```
 
 3. Test your code into App.java main class
-	
+
 ## Part 1: The Core Container
 The Core Container has Beans, Core, Context and Expression Language modules.
 
@@ -53,3 +53,18 @@ Context is another module which is built on the solid base by the Core and Beans
 The most powerful expression language used for manipulation and querying an object graph at runtime is said to be in the Expression Language. It acts as an extension of the unified expression language in the JSP 2.1 specification. This language helps in setting and getting property values, method invocation, and access of context in arrays, property assignment, logical and arithmetic operators and retrieval of objects.
 
 Spring framework can be described as a light weight container, as it does not involve installation, configuration, start and stop activities associated with a container. It is just a simple collection of few Java ARchive (JAR) files that need to be added to the classpath. The Spring Container takes the classes in the application, creates objects, and manages the life cycle of those objects.
+
+## Implementation of Inversion of Control in Spring Framework
+
+The Inversion of Control (IoC) is also said to be Dependency Injection (DI)
+which is a process for objects letting them define their dependencies through construct arguments,
+a factory method or properties. All of them are set on the object instance returned from a factory method.
+These dependencies are now injected by the container when it creates the bean.
+
+The process is reversed and itself controlling the instantiation by using the direct construction of classes.
+The packages org.springframework.context and org.springframework.beans are the main components for IoC container.
+An advanced configuration mechanism which manages every type of object is known as the BeanFactory interface.
+ The sub-interface of BeanFactory is called ApplicationContext. It is more feasible in adding integration with
+Spring’s AOP features event publication, message resource handling and application-layer specific contexts,
+ for example, the web applications with use of WebApplicationContext.
+ The BeanFactory has the configuration framework and the ApplicationContext provides more enterprise-specific functionality. The BeanFactory is a subset of the ApplicationContext.
