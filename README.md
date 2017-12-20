@@ -15,9 +15,8 @@ the bean whenever asked for by clients.
 ![image](https://i1.wp.com/www.dineshonjava.com/wp-content/uploads/2012/06/beanfactory.jpg?resize=530%2C331&ssl=1)
 <br /><br />
 
-<em>
 Interesting definition of beanFactory can be found [here](https://spring.io/blog/2011/08/09/what-s-a-factorybean) at https://spring.io/blog/2011/08/09/what-s-a-factorybean.
-</em>
+
 
 ### Triangle.java
 ```
