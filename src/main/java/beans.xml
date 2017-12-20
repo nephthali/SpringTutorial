@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+	
+	<bean id="adrs" class="org.ennva.spring_maven_tutorial.Address">
+		<property name="city" value="bologna" />
+		<property name="state" value="Italy" />
+		<property name="zipcode" value="44014" />
+	</bean>
+
+	<bean id="emp" class="org.ennva.spring_maven_tutorial.Employee" init-method="myInit" destroy-method="myDestroy">
+		<property name="eid" value="101" />
+		<property name="ename" value="Sveva" />
+		<!-- Contructor injection 
+		<constructor-arg ref="adrs" /> 
+		-->
+		<!-- Setter injection -->
+		<property name="eaddress" ref="adrs" />
+	</bean>
+	
+<!-- 	<bean id="emp2" class="com.ennva.Employee"> -->
+<!-- 		<property name="eid" value="102" /> -->
+<!-- 		<property name="ename" value="Enne" /> -->
+<!-- 		<property name="eaddress" value="Via pippo 2" /> -->
+<!-- 	</bean> -->
+
+</beans>

@@ -1,6 +1,5 @@
 package org.ennva.spring_maven_tutorial;
 
-import com.ennva.Address;
 
 //Bean or Model or POJO(The least restricted class)
 public class Employee {
