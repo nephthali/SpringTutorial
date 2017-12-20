@@ -15,6 +15,6 @@
 		<property name="eaddress" value="Via pippo 2" />
 	</bean>
 	
-	<bean class="org.ennva.spring_maven_tutorial.Triangle" id="triangle" />
+	<bean class="org.ennva.spring_maven_tutorial.Triangle" id="triangle" init-method="myInit" destroy-method="myDestroy" />
 
 </beans>

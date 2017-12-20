@@ -16,7 +16,6 @@
   </properties>
 
   <dependencies>
-
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
     <dependency>
         <groupId>org.springframework</groupId>
@@ -45,4 +44,50 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
+  <!-- Recipe to Add source an javadoc to your project: 
+  	https://maven.apache.org/plugin-developers/cookbook/attach-source-javadoc-artifacts.html
+  	With eclipse you have to run mvn goal package
+  	 1-Right click to project
+  	 2-Run Maven build
+  	 3-add goal package and run
+  	 4-Download source and javadoc: Right click project -> Maven -> Download source/Download javadoc
+  	 5-Update your project: Right click project -> Maven -> Update project
+  -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+<!--         <version>3.0.0</version> -->
+<!--         <configuration> -->
+<!--           Default configuration for all reports -->
+
+<!--         </configuration> -->
+        <executions>
+          <execution>
+            <id>attach-javadocs</id>
+            <goals>
+            	<goal>jar</goal>
+            </goals>
+          </execution>
+
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+  
 </project>
