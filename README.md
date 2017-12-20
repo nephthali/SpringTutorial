@@ -11,12 +11,10 @@ the bean whenever asked for by clients.
 	```
 	This is the simplest container providing basic support for DI and defined by the org.springframework.beans.factory.BeanFactory interface. The BeanFactory and related interfaces, such as BeanFactoryAware, InitializingBean, DisposableBean, are still present in Spring for the purposes of backward compatibility with the large number of third-party frameworks that integrate with Spring
 	```
+*Interesting definition of beanFactory can be found [here](https://spring.io/blog/2011/08/09/what-s-a-factorybean) at https://spring.io/blog/2011/08/09/what-s-a-factorybean.
 <br /><br />
 ![image](https://i1.wp.com/www.dineshonjava.com/wp-content/uploads/2012/06/beanfactory.jpg?resize=530%2C331&ssl=1)
 <br /><br />
-
-Interesting definition of beanFactory can be found [here](https://spring.io/blog/2011/08/09/what-s-a-factorybean) at https://spring.io/blog/2011/08/09/what-s-a-factorybean.
-
 
 ### Triangle.java
 ```
