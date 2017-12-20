@@ -1,15 +1,9 @@
 package org.ennva.spring_maven_tutorial;
 
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionReader;
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
+
 
 /**
  * Client Application!
@@ -26,25 +20,56 @@ public class App
 //    	Triangle triangle = new Triangle();
     	
         /**
-         * With Spring beanFactory container, class will be construct for you.
+         * With Spring ApplicationContext container, class will be construct for you.
+         * ApplicationContext is build on top of beanFactory and provide more
+         * Functionality than beanFactory
+         * 
+         * ClassPathXmlApplicationContext taking the context definition files from the class path, 
+         * interpreting plain paths as class path resource names that include the package path 
+         * (e.g. "mypackage/myresource.txt")
+         * 
+         * NB:The bean definitions will be loaded from the classpath, as a ClassPathResource will be used
+         * 
          **/
-//    	Resource resource = new ClassPathResource("beans.xml");
-//    	BeanFactory factory = new XmlBeanFactory(resource);
-//    	Triangle triangle = (Triangle) factory.getBean("triangle");
-//    	triangle.draw();
-    	
-    	/**
-    	 * XmlBeanFactory is deprecated as on spring 3.1 in favour
-    	 * of DefaultListableBeanFactory. So
-    	 * */
-    	Resource resource = new ClassPathResource("beans.xml");
-    	DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-    	BeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
-    	reader.loadBeanDefinitions(resource);
-    	
-    	Triangle triangle = beanFactory.getBean("triangle", Triangle.class);
+    	ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+    	Triangle triangle = (Triangle) context.getBean("triangle");
     	triangle.draw();
     	
+    	/**
+         * FileSystemXmlApplicationContext taking the context definition files from the file system 
+         * or from URLs, 
+         * interpreting plain paths as relative file system locations (e.g. "mydir/myfile.txt")
+         * NB:The bean definition will be loaded from a filesystem location, 
+         * 	in this case relative to the current working directory
+         **/
+//    	ApplicationContext context1 = new FileSystemXmlApplicationContext("src/main/resources/beans.xml");
+//    	Triangle triangle1 = (Triangle) context1.getBean("triangle");
+//    	triangle1.draw();
+    	
+    	/**
+         * FileSystemXmlApplicationContext:
+         * Note that the use of the special classpath prefix or a standard URL prefix on the location path will override the 
+         * default type of Resource created to load the definition
+         * 
+         **/
+    	ApplicationContext context2 =
+    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
+    	Triangle triangle2 = (Triangle) context2.getBean("triangle");
+    	triangle2.draw();
+    	
+    	/**
+         * FileSystemXmlApplicationContext:
+         * Wildcard like Ant-Style like /WEB-INF/*-context.xml
+         * can also be use other that classpath*: FileSystemXmlApplicationContext("classpath*:beans.xml");
+         * 
+         **/
+    	ApplicationContext context3 =
+    		    new FileSystemXmlApplicationContext("classpath:*.xml");
+//    	ApplicationContext context3 =
+//    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
+    	Triangle triangle3 = (Triangle) context2.getBean("triangle");
+    	triangle3.draw();
+   	
     	/** In order to Destroy the Bean Object, in this case a singleton scope bean
     	 *  sigleton: When a bean is a singleton, only one shared instance of the bean will 
     	 *  be managed and all requests for beans with an id or ids matching that bean 
@@ -54,13 +79,9 @@ public class App
     	 *  a single bean that has a destroy-method
     	 * 
     	 */
-    	ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"beans.xml"});
-    	context.close();
+    	//ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"beans.xml"});
+    	ClassPathXmlApplicationContext ctx = (ClassPathXmlApplicationContext)context;
+    	ctx.close();
 
-        
-        //You have to reference the ClassPathXmlApplicationContext
-        //ClassPathXmlApplicationContext ctx = (ClassPathXmlApplicationContext)context;
-        // And close the container
-        //ctx.close();
     }
 }

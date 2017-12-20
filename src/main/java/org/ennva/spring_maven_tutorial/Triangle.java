@@ -2,9 +2,19 @@ package org.ennva.spring_maven_tutorial;
 
 public class Triangle {
 	
-	public void draw()
+	private String type;
+	 
+	 /**
+	  * @param type the type to set
+	  */
+	 public void setType(String type)
 	 {
-	     System.out.println("Drawing Triangle");
+	  this.type = type;
+	 }
+
+	 public void draw()
+	 {
+	  System.out.println(type+" Triangle Drawn");
 	 }
 	
 	/*

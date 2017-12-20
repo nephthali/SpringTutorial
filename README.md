@@ -1,59 +1,46 @@
-# SpringTutorial – Spring BeanFactory Implementation
-A Spring BeanFactory is like a factory class that contains a collection of beans.
-The Spring BeanFactory holds Bean Definitions of multiple beans within itself and then instantiates
-the bean whenever asked for by clients.
+# SpringTutorial – ApplicationContext in Spring and Implementations
+In previous we used Bean Factory container and discussed with example. Now we will discuss about the ApplicationContext and Using with in Example.<br />
 
-* Spring BeanFactory is able to create associations between collaborating objects as they are instantiated. This removes the burden of configuration from bean itself and the beans client.
+ ApplicationContext like Bean Factory‘s Big Brother with some additional functionality such as <b>AOP concept<b>, <b>event notification</b> and it adds more enterprise-specific functionality such as the <b>ability to resolve textual messages from a properties file</b> and the <b>ability to publish application events to interested event listeners</b>. 
+ This container is defined by the <b>org.springframework.context.ApplicationContext</b> interface.
+ 
+```
+The ApplicationContext includes all functionality of the BeanFactory, it is generally recommended over the BeanFactory. BeanFactory can still be used for light weight applications like mobile devices or applet based applications.
+```
 
-* Spring  BeanFactory also takes part in the life cycle of a bean, making calls to custom initialization and destruction methods
+## ApplicationContext Implementations
+The most commonly used ApplicationContext implementations are:
 
-* 
+* <b> FileSystemXmlApplicationContext </b>
+	This container loads the definitions of the beans from an XML file. 
+	Here you need to provide the full path of the XML bean configuration file to the constructor.
 	```
-	This is the simplest container providing basic support for DI and defined by the
-	org.springframework.beans.factory.BeanFactory interface. The BeanFactory and related interfaces,
-	such as BeanFactoryAware, InitializingBean, DisposableBean, 
-	are still present in Spring for the purposes of backward compatibility with the large number 
-	of third-party frameworks that integrate with Spring
+	FileSystemXmlApplicationContext context = 
+		new FileSystemXmlApplicationContext("F:/my workspace/springAppDemo/src/spring
 	```
-* Interesting definition of beanFactory can be found [here](https://spring.io/blog/2011/08/09/what-s-a-factorybean) at https://spring.io/blog/2011/08/09/what-s-a-factorybean.
-<br /><br />
-![image](https://i1.wp.com/www.dineshonjava.com/wp-content/uploads/2012/06/beanfactory.jpg?resize=530%2C331&ssl=1)
-<br /><br />
-
-### Triangle.java
-```
-package org.ennva.spring_maven_tutorial;
-
-public class Triangle 
-{
- public void draw()
- {
-     System.out.println("Drawing Triangle");
- }
-}
-```
-
-### beans.xml
-```
-<?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
 	
-	<bean class="org.ennva.spring_maven_tutorial.Triangle" id="triangle" />
-
-</beans>
-```
-
-There are following two important points to note about the main program:
-
-    1. First step is to create factory object where we used framework API XmlBeanFactory() to create the factory bean and ClassPathResource() API to load the bean configuration file available in CLASSPATH. The XmlBeanFactory() API takes care of creating and initializing all the objects ie. beans mentioned in the configuration file.
-    2. Second step is used to get required bean using getBean() method of the created bean factory object. This method uses bean ID to return a generic object which finally can be casted to actual object. Once you have object, you can use this object to call any class method.
-    
-After run the App class we will get following Output on console. <br /><br />
+* <b> ClassPathXmlApplicationContext</b>
+	This container loads the definitions of the beans from an XML file. 
+	Here you do not need to provide the full path of the XML file but you need 
+	to set CLASSPATH properly because this container will look bean configuration XML file in CLASSPATH.
+	```
+	ApplicationContext context = 
+		new ClassPathXmlApplicationContext("classpath*:com/dineshonjava/**/springConfig/spring.xml");
+	```
+* <b> WebXmlApplicationContext</b>
+	This container loads the XML file with definitions of all beans from within a web application.
+	```
+	ApplicationContext appContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+	```
+## Example on App.java
+Running your example will output something like that:<br /><br />
 <div style="background-color: #ff99cc; border-width: thin; border: solid;">
 <div style="color: blue;"><b>Output:</b></div>
-<div style="color: red;">Jun 17, 2012 3:47:36 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions</div>
-<div style="color: red;">INFO: Loading XML bean definitions from file [F:my workspacespring03BeanFactoryDemospring.xml]</div>
-<p><b>Drawing Triangle</b></p>
-</div> 
+<div style="color: red;">Jun 18, 2012 11:40:04 AM org.springframework.context.support.AbstractApplicationContext prepareRefresh</div>
+<div style="color: red;">INFO: Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@145d068: startup date [Mon Jun 18 11:40:04 IST 2012]; root of context hierarchy</div>
+<div style="color: red;">Jun 18, 2012 11:40:04 AM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions</div>
+<div style="color: red;">INFO: Loading XML bean definitions from class path resource [spring.xml]</div>
+<div style="color: red;">Jun 18, 2012 11:40:05 AM org.springframework.beans.factory.support.DefaultListableBeanFactory preInstantiateSingletons</div>
+<div style="color: red;">INFO: Pre-instantiating singletons in org.springframework.beans.factory.support.DefaultListableBeanFactory@14c1103: defining beans [triangle]; root of factory hierarchy</div>
+<p><b>Equilateral Triangle Drawn</b></p>
+</div>
