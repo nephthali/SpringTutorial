@@ -1,70 +1,58 @@
-# SpringTutorial – Learn Spring Framework step by step
-This Spring Tutorial Core Container use Eclipse IDE and Maven tool to build and manage depencencies of
-the project. So you have to:
+# SpringTutorial – Spring BeanFactory Implementation
+A Spring BeanFactory is like a factory class that contains a collection of beans.
+The Spring BeanFactory holds Bean Definitions of multiple beans within itself and then instantiates
+the bean whenever asked for by clients.
 
-1. Check [Maven repositry](https://mvnrepository.com/artifact/org.springframework/spring-core) to have a right spring dependency. For this tutorial we will use <b>spring 4.3.13 release</b>. It woulf look like this:
+* Spring BeanFactory is able to create associations between collaborating objects as they are instantiated. This removes the burden of configuration from bean itself and the beans client.
+
+* Spring  BeanFactory also takes part in the life cycle of a bean, making calls to custom initialization and destruction methods
+
+* 
+	```
+	This is the simplest container providing basic support for DI and defined by the org.springframework.beans.factory.BeanFactory interface. The BeanFactory and related interfaces, such as BeanFactoryAware, InitializingBean, DisposableBean, are still present in Spring for the purposes of backward compatibility with the large number of third-party frameworks that integrate with Spring
+	```
+<br /><br />
+![image](https://i1.wp.com/www.dineshonjava.com/wp-content/uploads/2012/06/beanfactory.jpg?resize=530%2C331&ssl=1)
+<br /><br />
+
+<em>
+Interesting definition of beanFactory can be found [here](https://spring.io/blog/2011/08/09/what-s-a-factorybean) at https://spring.io/blog/2011/08/09/what-s-a-factorybean.
+</em>
+
+### Triangle.java
 ```
-	<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-core</artifactId>
-	    <version>4.3.13.RELEASE</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-context</artifactId>
-	    <version>4.3.13.RELEASE</version>
-	</dependency>
-	<dependency>
-	    <groupId>org.springframework</groupId>
-	    <artifactId>spring-beans</artifactId>
-	    <version>4.3.13.RELEASE</version>
-	</dependency>
+package org.ennva.spring_maven_tutorial;
+
+public class Triangle 
+{
+ public void draw()
+ {
+     System.out.println("Drawing Triangle");
+ }
+}
 ```
 
-2. Add your Spring config file under the classpath src/main/java. I called it beans.xml. It describe beans class or POJO.
+### beans.xml
 ```
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-	<bean id="emp1" class="com.ennva.Employee" init-method="myInit" destroy-method="myDestroy">
-		<property name="eid" value="101" />
-		<property name="ename" value="pippo1" />
-		<property name="eaddress" value="Via pippo 1" />
-	</bean>
-	<bean id="emp2" class="com.ennva.Employee">
-		<property name="eid" value="102" />
-		<property name="ename" value="pippo2" />
-		<property
-	</bean>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+	
+	<bean class="org.ennva.spring_maven_tutorial.Triangle" id="triangle" />
+
 </beans>
 ```
 
-3. Test your code into App.java main class
+There are following two important points to note about the main program:
 
-## Part 1: The Core Container
-The Core Container has Beans, Core, Context and Expression Language modules.
-
-Core and Beans are the basic parts of the framework with Dependency Injection and IoC features. The BeanFactory is a sophisticated implementation of the factory pattern. There is no need of programmatic singletons and they also allow decoupling the specification and configuration of dependencies from the actual program logic.
-
-Context is another module which is built on the solid base by the Core and Beans. This module is a way to access the objects in a framework-style and is similar to a JNDI registry. It has the features from the Bean modules and supports internationalization, resource-loading, event-propagation and the transparent creation. EJB, JMX and basic remoting are also supported by Java EE in this module. The Context module has a focal point which is known as the ApplicationContext.
-
-The most powerful expression language used for manipulation and querying an object graph at runtime is said to be in the Expression Language. It acts as an extension of the unified expression language in the JSP 2.1 specification. This language helps in setting and getting property values, method invocation, and access of context in arrays, property assignment, logical and arithmetic operators and retrieval of objects.
-
-Spring framework can be described as a light weight container, as it does not involve installation, configuration, start and stop activities associated with a container. It is just a simple collection of few Java ARchive (JAR) files that need to be added to the classpath. The Spring Container takes the classes in the application, creates objects, and manages the life cycle of those objects.
-
-## Implementation of Inversion of Control in Spring Framework
-
-The Inversion of Control (IoC) is also said to be Dependency Injection (DI)
-which is a process for objects letting them define their dependencies through construct arguments,
-a factory method or properties. All of them are set on the object instance returned from a factory method.
-These dependencies are now injected by the container when it creates the bean.
-
-The process is reversed and itself controlling the instantiation by using the direct construction of classes.
-The packages org.springframework.context and org.springframework.beans are the main components for IoC container.
-An advanced configuration mechanism which manages every type of object is known as the BeanFactory interface.
- The sub-interface of BeanFactory is called ApplicationContext. It is more feasible in adding integration with
-Spring’s AOP features event publication, message resource handling and application-layer specific contexts,
- for example, the web applications with use of WebApplicationContext.
- The BeanFactory has the configuration framework and the ApplicationContext provides more enterprise-specific functionality. The BeanFactory is a subset of the ApplicationContext.
+    1. First step is to create factory object where we used framework API XmlBeanFactory() to create the factory bean and ClassPathResource() API to load the bean configuration file available in CLASSPATH. The XmlBeanFactory() API takes care of creating and initializing all the objects ie. beans mentioned in the configuration file.
+    2. Second step is used to get required bean using getBean() method of the created bean factory object. This method uses bean ID to return a generic object which finally can be casted to actual object. Once you have object, you can use this object to call any class method.
+    
+After run the App class we will get following Output on console. <br /><br />
+<div style="background-color: #ff99cc; border-width: thin; border: solid;">
+<div style="color: blue;"><b>Output:</b></div>
+<div style="color: red;">Jun 17, 2012 3:47:36 PM org.springframework.beans.factory.xml.XmlBeanDefinitionReader loadBeanDefinitions</div>
+<div style="color: red;">INFO: Loading XML bean definitions from file [F:my workspacespring03BeanFactoryDemospring.xml]</div>
+<p><b>Drawing Triangle</b></p>
+</div> 

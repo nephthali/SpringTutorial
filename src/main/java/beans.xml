@@ -14,5 +14,7 @@
 		<property name="ename" value="pippo2" />
 		<property name="eaddress" value="Via pippo 2" />
 	</bean>
+	
+	<bean class="org.ennva.spring_maven_tutorial.Triangle" id="triangle" />
 
 </beans>

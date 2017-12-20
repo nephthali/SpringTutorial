@@ -1,42 +1,40 @@
 package org.ennva.spring_maven_tutorial;
 
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 
 /**
- * Hello world!
+ * Client Application!
  *
  */
 public class App
 {
     public static void main( String[] args )
     {
+    	/*
+    	 * Traditional method without spring.
+    	 * You have to construct yourself a Triangle class
+    	 * */
+//    	Triangle triangle = new Triangle();
+    	
         /**
-         * Spring Have 2 type of container:
-         * 1- First Spring Container (BeanFactory)
-         *      This first one have a method XmlBeanFactory deprecated as of Spring 3.1
-         *      in in favor of DefaultListableBeanFactory and XmlBeanDefinitionReader
-         *
-         * 2- Second Spring container (ApplicationContext)
-         *      This is a second That is build on top of BeanFactory
-         *      and Most use as of Spring 3.1 **/
-//      Resource resource = new ClassPathResource("beans.xml");
-//      BeanFactory factory = new XmlBeanFactory(resource);
-//      Employee emp1 = (Employee)factory.getBean("emp1");
-//      Employee emp2 = factory.getBean("emp2",Employee.class);
+         * With Spring beanFactory container, class will be construct for you.
+        **/
+    	Resource resource = new ClassPathResource("beans.xml");
+    	BeanFactory factory = new XmlBeanFactory(resource);
+    	Triangle triangle = (Triangle) factory.getBean("triangle");
+    	triangle.draw();
+    	
 
-        // Second Spring Container
-        ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-        Employee emp1 = (Employee)context.getBean("emp1");
-        Employee emp2 = context.getBean("emp2",Employee.class);
-
-        System.out.println("Employee Details" + emp1);
-        System.out.println("Employee Details" + emp2);
 
         // Destroy the Bean Object :
         //You have to reference the ClassPathXmlApplicationContext
-        ClassPathXmlApplicationContext ctx = (ClassPathXmlApplicationContext)context;
+        //ClassPathXmlApplicationContext ctx = (ClassPathXmlApplicationContext)context;
         // And close the container
-        ctx.close();
+        //ctx.close();
     }
 }
