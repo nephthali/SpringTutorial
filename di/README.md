@@ -202,4 +202,130 @@ Lets see that code snip sett how to use the Properties file in the spring bean c
 </property>
 ```
 
+Following is the configuration file spring.xml which has configuration for all the type of collections:
 
+## beans.xml
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+	
+	<bean class="<your classpath here >" id="shapeCollection">
+
+      
+      <property name="shapeOfList">
+        <list>
+           <value>Triangle</value>
+           <value>Circle</value>
+           <value>Circle</value>
+           <value>Rectangle</value>
+        </list>
+      </property>
+
+     
+     <property name="shapeOfSet">
+        <set>
+           <value>Triangle</value>
+           <value>Circle</value>
+           <value>Circle</value>
+           <value>Rectangle</value>
+        </set>
+      </property>
+
+     
+     <property name="shapeOfMap">
+        <map>
+           <entry key="1" value="Triangle">
+           <entry key="2" value="Circle">
+           <entry key="3" value="Circle">
+           <entry key="4" value="Rectangle">
+        </entry></entry></entry></entry></map>
+      </property>
+
+     
+     <property name="shapeOfProperties">
+        <props>  
+      <prop key="triangle">Triangle</prop>  
+      <prop key="circle1">Circle</prop>  
+      <prop key="circle2">Circle</prop>  
+      <prop key="rectangle">Rectangle</prop>  
+    </props> 
+      </property>
+
+   </bean>
+</beans>
+```
+
+## Injecting Bean References to the Collection
+
+In the following bean configuration file has understand how to inject bean references as one of the collection’s element.
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+	
+	<bean class="<your classpath here>.Triangle" id="triangle">
+       <property name="height" value="30"></property>
+       <property name="type" value="Eqiletral"></property>
+   </bean>
+
+   <bean class="<>" id="shapeCollection">
+
+     
+      <property name="shapeOfList">
+        <list>
+           <value>Circle</value>
+           <value>Circle</value>
+           <ref bean="triangle"></ref>
+           <bean class=" <your classpath here>.Rectangle">
+              <property name="height" value="30"></property>
+              <property name="width" value="50"></property>
+           </bean>
+        </list>
+      </property>
+
+     
+     <property name="shapeOfSet">
+        <set>
+           <value>Circle</value>
+           <value>Circle</value>
+           <ref bean="triangle"></ref>
+           <bean class="<your classpath here>.Rectangle">
+              <property name="height" value="30"></property>
+              <property name="width" value="50"></property>
+           </bean>
+        </set>
+      </property>
+
+     
+     <property name="shapeOfMap">
+        <map>
+           <entry key="2" value="Circle"></entry>
+           <entry key="3" value="Circle"></entry>
+           <entry key="1" ref-value="triangle"></entry>
+           <entry key="4">
+              <bean class="<your classpath here>.Rectangle">
+                 <property name="height" value="30"></property>
+                 <property name="width" value="50"></property>
+               </bean>
+           </entry>
+        </map>
+      </property>
+
+     
+     <property name="shapeOfProperties">
+        <props>  
+          <prop key="triangle">Triangle</prop>  
+          <prop key="circle1">Circle</prop>  
+          <prop key="circle2">Circle</prop>  
+          <prop key="rectangle">Rectangle</prop>  
+        </props> 
+      </property>
+
+   </bean>
+</beans>
+	
+```
