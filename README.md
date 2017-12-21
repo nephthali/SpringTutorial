@@ -54,4 +54,77 @@ First create the class <b>“ApplicationContextProvider (Triangle class)”</b>.
 The ApplicationContextAware is used when an object required. See The <b>(Rectangle.java)</b> class.
 We’ll provide our beans with access to the ApplicationContext object by implementing the ApplicationContextAware interface. We’ll also use BeanNameAware interface to get the name of the bean configured in the Spring XML.
 
+## Spring Bean Definition Inheritance Example
+A bean definition potentially contains a large amount of configuration information, including container specific information and constructor arguments and property values. A child bean definition inherits configuration data from a parent definition. The child definition can override some values, or add others, as needed. Using parent and child bean definitions can save a lot of typing. Effectively, this is a form of templating.
+
+<p color="red">
+Spring Bean definition inheritance has nothing to do with Java class inheritance but inheritance concept is same. You can define a parent bean definition as a template and other child beans can inherit required configuration from the parent bean.
+</p>
+
+Following is the configuration file spring.xml where we defined “parentTriangle” bean which has one property “pointA”. Next there are two beans “triangle1” bean and “triangle2” bean has been defined as a child of “parentTriangle” bean by using parent attribute. The child beans inherits “pointA” property as is, and overrides “pointA” property and introduces two more properties “pointB” and “pointC.
+
+### Spring.xml
+
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+	
+	<bean class="< Your classPath Here >.Triangle" id="parentTriangle">
+   		<property name="pointA" ref="pointA"></property>
+	</bean>
+	<bean class="< Your classPath Here >.Triangle" id="triangle1" parent="parentTriangle">
+	   <property name="pointB" ref="pointB"></property>
+	   <property name="pointC" ref="pointC"></property>
+	</bean>
+	  
+	<bean class="< Your classPath Here >.Triangle" id="triangle2" parent="parentTriangle">
+	   <property name="pointB" ref="pointB"></property>
+	</bean>
+	  
+	<bean class="< Your classPath Here >.Point" id="pointA">
+	  <property name="x" value="0"></property>
+	  <property name="y" value="0"></property>
+	</bean>
+	  
+	<bean class="< Your classPath Here >.Point" id="pointB">
+	  <property name="x" value="-20"></property>
+	  <property name="y" value="0"></property>
+	</bean>
+	  
+	<bean class="< Your classPath Here >.Point" id="pointC">
+	  <property name="x" value="20"></property>
+	  <property name="y" value="0"></property>
+	</bean>
+
+</beans>
+```
+
+### App.java
+
+```
+package < Your classPath Here >;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+/**
+ * @author Nephthali
+ *
+ */
+public class DrawingApp 
+{
+ /**
+  * @param args
+  */
+ public static void main(String[] args) 
+ {
+ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+Triangle triangle = (Triangle) context.getBean("triangle1");
+triangle.draw();
+ }
+}
+```
+
 
