@@ -1,13 +1,15 @@
 package org.ennva.spring_maven_tutorial;
 
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+
 /**
  * @author nephthali
  *
  */
-/**
- * @author nephthali
- *
- */
+@Service
+//@Scope("singleton") The defaut
+@Scope("prototype")
 public class Point {
 	
 	private int x;
