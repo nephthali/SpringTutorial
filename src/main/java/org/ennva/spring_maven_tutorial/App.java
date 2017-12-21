@@ -1,6 +1,7 @@
 package org.ennva.spring_maven_tutorial;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -31,7 +32,7 @@ public class App
          * NB:The bean definitions will be loaded from the classpath, as a ClassPathResource will be used
          * 
          **/
-    	ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+//    	ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 //    	Triangle triangle = (Triangle) context.getBean("triangle");
 //    	triangle.draw();
     	
@@ -81,6 +82,8 @@ public class App
     	 */
 		// Point point1 = (Point) context.getBean("zeroPoint");
 		// Point point2 = (Point) context.getBean("zeroPoint");
+    	AbstractApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+    	context.registerShutdownHook();//This is call to use When extending InitializingBean and DisposableBean
     	Point point1 = (Point) context.getBean("point");
     	Point point2 = (Point) context.getBean("point");
     	if(point1 == point2)
@@ -99,8 +102,8 @@ public class App
     	 * 
     	 */
     	//ConfigurableApplicationContext context = new ClassPathXmlApplicationContext(new String[] {"beans.xml"});
-    	ClassPathXmlApplicationContext ctx = (ClassPathXmlApplicationContext)context;
-    	ctx.close();
+		// ClassPathXmlApplicationContext ctx = (ClassPathXmlApplicationContext)context;
+		// ctx.close();
 
     }
 }
