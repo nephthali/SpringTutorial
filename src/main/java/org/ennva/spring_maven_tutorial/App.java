@@ -31,9 +31,9 @@ public class App
          * NB:The bean definitions will be loaded from the classpath, as a ClassPathResource will be used
          * 
          **/
-    	ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-    	Triangle triangle = (Triangle) context.getBean("triangle");
-    	triangle.draw();
+//    	ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+//    	Triangle triangle = (Triangle) context.getBean("triangle");
+//    	triangle.draw();
     	
     	/**
          * FileSystemXmlApplicationContext taking the context definition files from the file system 
@@ -52,10 +52,10 @@ public class App
          * default type of Resource created to load the definition
          * 
          **/
-    	ApplicationContext context2 =
-    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
-    	Triangle triangle2 = (Triangle) context2.getBean("triangle");
-    	triangle2.draw();
+//    	ApplicationContext context2 =
+//    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
+//    	Triangle triangle2 = (Triangle) context2.getBean("triangle");
+//    	triangle2.draw();
     	
     	/**
          * FileSystemXmlApplicationContext:
@@ -63,12 +63,19 @@ public class App
          * can also be use other that classpath*: FileSystemXmlApplicationContext("classpath*:beans.xml");
          * 
          **/
-    	ApplicationContext context3 =
-    		    new FileSystemXmlApplicationContext("classpath:*.xml");
 //    	ApplicationContext context3 =
-//    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
-    	Triangle triangle3 = (Triangle) context2.getBean("triangle");
-    	triangle3.draw();
+//    		    new FileSystemXmlApplicationContext("classpath:*.xml");
+////    	ApplicationContext context3 =
+////    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
+//    	Triangle triangle3 = (Triangle) context2.getBean("triangle");
+//    	triangle3.draw();
+    	
+    	/**
+    	 *  Getting Your bean by applicationContextAware
+    	 */
+		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+		Rectangle triangle = context.getBean("rectangle", Rectangle.class);
+		triangle.draw();
    	
     	/** In order to Destroy the Bean Object, in this case a singleton scope bean
     	 *  sigleton: When a bean is a singleton, only one shared instance of the bean will 
