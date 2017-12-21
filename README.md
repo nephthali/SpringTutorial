@@ -81,3 +81,125 @@ Thats dependency injection in “real life”.
 This may not seem like a lot since you imagine a cost to yourself as a single person – but if you imagine
 a large organization the savings are likely to be substantial.
 
+## Injecting Inner Beans in Spring with Example
+Injecting Inner Beans in the Spring means beans that are defined within the scope of another bean whenever a bean is used for only one particular property. It’s advise to declare it as an inner bean.It supported in setter injection and constructor injection.
+
+Inner Bean means bean with in the bean
+
+Let See an Example with Employe.java, Adreess.java and State.java beans
+
+## Injecting Collections in Spring Application
+Injecting Collections in Spring-We can inject collection values by constructor in spring framework. Spring Collections (List, Set, Map, and Properties) example. Spring examples to show you how to inject values into collections type (List, Set, Map, and Properties).
+<br />
+![image](https://i1.wp.com/www.dineshonjava.com/wp-content/uploads/2012/06/injecting-collections-in-spring.jpg?w=530&ssl=1)
+<br />
+You have seen how to configure primitive data type using value attribute and object references using ref attribute of the tag in your Bean configuration file(spring.xml). Both the cases deal with passing singular value to a bean. Now we will discuss about passing multiple value of data like List, Set, Collection, Map, Properties etc. To handle the situation, Spring offers four types of collection configuration element.
+
+So There are different tags are using by these different Collection elements as follows:
+
+* List  — using– <list> – </list>
+* Set   — using– <set> – </set>
+* Map — using– <map> – </map>
+* Properties –using– <props> – </props>
+
+## Using List
+Lets see that code snip sett how to use the List in the spring bean configuration file.
+In this code snipset list contain all values tags only.
+```
+<property name="listOfShape">
+   <list>
+      <value>Triangle</value>
+      <value>Circle</value>
+      <value>Rectangle</value>
+      <value>Square</value>
+   </list>
+</property>
+```
+
+In this code snipset list contain values and beans and inner bean tags.
+```
+<property name="listOfShape">
+   <list>
+      <value>Triangle</value>
+      <value>Circle</value>
+      <ref bean="rectangle"></ref>      
+      <bean class="com.dineshonjava.sdnext.Square">
+          <property name="width" value="20"></property>
+      </bean>
+    </list>
+</property>
+```
+
+## Using Set
+Lets see that code snip sett how to use the Set in the spring bean configuration file.
+In this code snipset set contain all values tags only.
+```
+<property name="setOfShape">
+   <set>
+      <value>Triangle</value>
+      <value>Circle</value>
+      <value>Rectangle</value>
+      <value>Square</value>
+   </set>
+</property>
+```
+
+In this code snipset set contain values and beans and inner bean tags.
+```
+<property name="setOfShape">
+   <set>
+      <value>Triangle</value>
+      <value>Circle</value>
+      <ref bean="rectangle"></ref>      
+      <bean class="com.dineshonjava.sdnext.Square">
+          <property name="width" value="20"></property>
+      </bean>
+   </set>
+</property>
+```
+
+## Using Map
+Lets see that code snip sett how to use the Map in the spring bean configuration file.
+In this code snipset mapcontain all values tags only.
+```
+<property name="mapOfShape">
+   <map>
+     <entry key="1" value="Triangle">
+     <entry key="2" value="Circle">
+     <entry key="3" value="Rectangle">
+     <entry key="4" value="Square">
+     </entry></entry></entry></entry>
+   </map>
+</property>
+```
+
+In this code snipset map contain values and beans and inner bean tags.
+```
+<property name="mapOfShape">
+   <map>
+     <entry key="1" value="Triangle"></entry>
+     <entry key="2" value="Circle"></entry>
+     <entry key="3" value-ref="rectangle"></entry>
+     <entry key="4">
+        <bean class="com.dineshonjava.sdnext.Square">
+          <property name="width" value="20"></property>
+        </bean>
+     </entry>
+   </map>
+</property>
+```
+
+## Using Properties file
+Lets see that code snip sett how to use the Properties file in the spring bean configuration file.
+```
+<property name="proprtyOfShape">
+   <props>
+     <prop key="triangle">Triangle</prop>
+     <prop key="circle">Circle</prop>
+     <prop key="rectangle">Rectangle</prop>
+     <prop key="sqare">Square</prop>
+   </props>
+</property>
+```
+
+

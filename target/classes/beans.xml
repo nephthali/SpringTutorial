@@ -2,11 +2,78 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+	<bean id="triangle" class="org.ennva.spring_maven_tutorial.Triangle">
+	   <property name="height" value="30"></property>
+       <property name="type" value="Eqiletral"></property>
+	</bean>
+
+	<!-- Collection Injection -->
+	<bean id="shapeCollection" class="org.ennva.spring_maven_tutorial.ShapeCollection">
+	  <property name="shapeOfList">
+        <list>
+<!--            <value>Circle</value> -->
+<!--            <value>Circle</value> -->
+           <!-- Injecting Bean References to the Collection -->
+<!--            <value>Triangle</value> -->
+		   <ref bean="triangle"></ref>
+<!-- 		   <bean class="org.ennva.spring_maven_tutorial.Triangle"> -->
+<!--               <property name="height" value="30"></property> -->
+<!--               <property name="width" value="50"></property> -->
+<!--            </bean> -->
+<!--            <value>Rectangle</value> -->
+        </list>
+      </property>
+      <property name="shapeOfSet">
+        <set>
+           <value>Triangle</value>
+           <value>Circle</value>
+           <value>Circle</value>
+           <value>Rectangle</value>
+        </set>
+      </property>
+      <property name="shapeOfMap">
+        <map>
+           <entry key="1" value="Triangle" />
+           <entry key="2" value="Circle" />
+           <entry key="3" value="Circle" />
+           <entry key="4" value="Rectangle" />
+         </map>
+      </property>
+      <property name="shapeOfProperties">
+        <props>  
+	      <prop key="triangle">Triangle</prop>  
+	      <prop key="circle1">Circle</prop>  
+	      <prop key="circle2">Circle</prop>  
+	      <prop key="rectangle">Rectangle</prop>  
+	    </props> 
+      </property>	
+	</bean>
+
 	
-	<bean id="adrs" class="org.ennva.spring_maven_tutorial.Address">
+<!-- 	<bean id="adrs" class="org.ennva.spring_maven_tutorial.Address"> -->
+<!-- 		<property name="city" value="bologna" /> -->
+<!-- 		<property name="state" value="Italy" /> -->
+<!-- 		<property name="zipcode" value="44014" /> -->
+<!-- 	</bean> -->
+
+	<!-- Inner bean Injection -->
+	<bean id="adrs1" class="org.ennva.spring_maven_tutorial.Address">
 		<property name="city" value="bologna" />
-		<property name="state" value="Italy" />
+<!-- 		<constructor-arg ref="st" /> -->
+<!-- 		<property name="state" ref="st" /> -->
+		<property name="state">
+			<bean class="org.ennva.spring_maven_tutorial.State">
+				<property name="continent" value="Europe" />
+				<property name="population" value="1245879" />
+			</bean>
+		</property>
 		<property name="zipcode" value="44014" />
+	</bean>
+	
+	<bean id="st" class="org.ennva.spring_maven_tutorial.State">
+		<property name="continent" value="Africa" />
+		<property name="population" value="1245879" />
 	</bean>
 
 	<bean id="emp" class="org.ennva.spring_maven_tutorial.Employee" init-method="myInit" destroy-method="myDestroy">
@@ -16,7 +83,9 @@
 		<constructor-arg ref="adrs" /> 
 		-->
 		<!-- Setter injection -->
-		<property name="eaddress" ref="adrs" />
+		<!-- <property name="eaddress" ref="adrs" /> -->
+		<!-- Inner bean injection -->
+		<property name="eaddress" ref="adrs1"/>
 	</bean>
 	
 <!-- 	<bean id="emp2" class="com.ennva.Employee"> -->
