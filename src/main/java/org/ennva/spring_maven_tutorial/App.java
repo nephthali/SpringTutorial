@@ -32,8 +32,8 @@ public class App
          * 
          **/
     	ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
-    	Triangle triangle = (Triangle) context.getBean("triangle");
-    	triangle.draw();
+//    	Triangle triangle = (Triangle) context.getBean("triangle");
+//    	triangle.draw();
     	
     	/**
          * FileSystemXmlApplicationContext taking the context definition files from the file system 
@@ -52,10 +52,10 @@ public class App
          * default type of Resource created to load the definition
          * 
          **/
-    	ApplicationContext context2 =
-    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
-    	Triangle triangle2 = (Triangle) context2.getBean("triangle");
-    	triangle2.draw();
+//    	ApplicationContext context2 =
+//    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
+//    	Triangle triangle2 = (Triangle) context2.getBean("triangle");
+//    	triangle2.draw();
     	
     	/**
          * FileSystemXmlApplicationContext:
@@ -63,13 +63,20 @@ public class App
          * can also be use other that classpath*: FileSystemXmlApplicationContext("classpath*:beans.xml");
          * 
          **/
-    	ApplicationContext context3 =
-    		    new FileSystemXmlApplicationContext("classpath:*.xml");
 //    	ApplicationContext context3 =
-//    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
-    	Triangle triangle3 = (Triangle) context2.getBean("triangle");
-    	triangle3.draw();
-   	
+//    		    new FileSystemXmlApplicationContext("classpath:*.xml");
+////    	ApplicationContext context3 =
+////    		    new FileSystemXmlApplicationContext("src/main/resources/*.xml");
+//    	Triangle triangle3 = (Triangle) context2.getBean("triangle");
+//    	triangle3.draw();
+    	
+    	/**
+    	 * Autowiring by type test
+    	 */
+    	Circle circle = (Circle) context.getBean("circle");
+    	circle.draw();
+    	
+    	
     	/** In order to Destroy the Bean Object, in this case a singleton scope bean
     	 *  sigleton: When a bean is a singleton, only one shared instance of the bean will 
     	 *  be managed and all requests for beans with an id or ids matching that bean 
