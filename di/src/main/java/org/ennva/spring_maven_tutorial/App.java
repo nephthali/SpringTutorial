@@ -24,7 +24,11 @@ public class App
 		ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
 		Employee emp = context.getBean("emp",Employee.class);
 		
-		System.out.println("Employee Details" + emp);
+		/* Collection injection */
+		ShapeCollection shapeCollection = (ShapeCollection) context.getBean("shapeCollection");
+		System.out.println(shapeCollection);
+		
+		System.out.println("\n Employee Details" + emp);
 
         // Destroy the Bean Object :
         //You have to reference the ClassPathXmlApplicationContext
