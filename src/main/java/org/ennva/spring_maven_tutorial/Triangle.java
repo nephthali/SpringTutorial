@@ -1,11 +1,18 @@
 package org.ennva.spring_maven_tutorial;
 
-public class Triangle {
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
+public class Triangle implements InitializingBean, DisposableBean {
 
 	private String type;
 	private Point pointA;
 	private Point pointB;
 	private Point pointC;
+
+	public Triangle() {
+		System.out.println("-- Triangle Bean constructor --");
+	}
 
 	/**
 	 * @param type
@@ -50,17 +57,24 @@ public class Triangle {
 		System.out.println("PointC is (" + pointC.getX() + ", " + pointC.getY() + ")");
 	}
 
-	/*
-	 * Dimonstration of Bean LifeCycle Manage by Spring beanFactory Container Theses
-	 * method control Initialization and destruction of my Bean class and need to be
-	 * add to metadata xml file. In this case beans.xml
-	 */
-	public void myInit() {
-		System.out.println("-- Object Initialized --");
+	/* Overwritten Method of InitializingBean interface */
+	public void afterPropertiesSet() throws Exception {
+		System.out.println("-- InitializingBean init method is called for Triangle --");
 	}
 
-	public void myDestroy() {
-		System.out.println("-- Object Destroyed --");
+	/* Overwritten Method of DisposableBean interface */
+	public void destroy() throws Exception {
+		System.out.println("-- DisposableBean destroy method is called for Triangle --");
+	}
+
+	/* Initialization callbacks method */
+	public void myInit() {
+//		System.out.println("-- My init method is called for Triangle --");
+	}
+
+	/* Destruction callbacks method */
+	public void cleanUp() {
+//		System.out.println("-- cleanUp method is called for Triangle --");
 	}
 
 }

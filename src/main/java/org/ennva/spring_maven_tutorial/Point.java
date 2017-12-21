@@ -15,7 +15,11 @@ public class Point {
 	private int x;
 	private int y;
 	
-	
+	public Point() {
+		System.out.println("-- Point bean Constructor --");
+	}
+
+
 	/**
 	 * @return
 	 */
@@ -43,6 +47,16 @@ public class Point {
 	 */
 	public void setY(int y) {
 		this.y = y;
+	}
+	
+	/* Initialization callbacks method */
+	public void myInit() {
+		System.out.println("-- My init method is called for Triangle --");
+	}
+
+	/* Destruction callbacks method */
+	public void cleanUp() {
+		System.out.println("-- cleanUp method is called for Triangle --");
 	}
 
 }

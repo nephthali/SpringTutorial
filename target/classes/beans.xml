@@ -1,80 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+<beans default-destroy-method="cleanUp" default-init-method="myInit" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
 
 	<!-- Definition of base package mapped through annotation into bean class -->
 	<context:component-scan base-package="org.ennva.spring_maven_tutorial"></context:component-scan>
 
-	<!-- <bean id="emp1" class="org.ennva.spring_maven_tutorial.Employee" init-method="myInit" 
-		destroy-method="myDestroy"> -->
-	<!-- <property name="eid" value="101" /> -->
-	<!-- <property name="ename" value="pippo1" /> -->
-	<!-- <property name="eaddress" value="Via pippo 1" /> -->
-	<!-- </bean> -->
-
-	<!-- <bean id="emp2" class="org.ennva.spring_maven_tutorial.Employee"> -->
-	<!-- <property name="eid" value="102" /> -->
-	<!-- <property name="ename" value="pippo2" /> -->
-	<!-- <property name="eaddress" value="Via pippo 2" /> -->
-	<!-- </bean> -->
-
-	<!-- <bean class="org.ennva.spring_maven_tutorial.Triangle" id="triangle" 
-		init-method="myInit" destroy-method="myDestroy"> -->
-	<!-- <property name="type" value="Equilateral"></property> -->
-	<!-- </bean> -->
-
-	<!-- Autowiring by autodetect -->
-	<!-- The autodetect option for autowire attribute has been deprecated as 
-		of Spring 3.0 -->
-	<!-- <bean autowire="autodetect" class="org.ennva.spring_maven_tutorial.Circle" 
-		id="circle" /> -->
-
-	<!-- Autowiring by constructor -->
-	<bean autowire="constructor" class="org.ennva.spring_maven_tutorial.Circle"
-		id="circle" />
-
-	<!-- Autowiring by type -->
-	<!-- <bean autowire="byType" class="org.ennva.spring_maven_tutorial.Circle" 
-		id="circle" /> -->
-
-	<!-- Autowiring by name -->
-	<bean autowire="byName" class="org.ennva.spring_maven_tutorial.Triangle"
-		id="triangle">
-		<property name="type" value="Equilateral"></property>
-	</bean>
-	<!-- <bean class="org.ennva.spring_maven_tutorial.Point" id="pointA"> -->
-	<!-- <property name="x" value="0"></property> -->
-	<!-- <property name="y" value="0"></property> -->
-	<!-- </bean> -->
-
-	<!-- <bean class="org.ennva.spring_maven_tutorial.Point" id="pointB"> -->
-	<!-- <property name="x" value="-20"></property> -->
-	<!-- <property name="y" value="0"></property> -->
-	<!-- </bean> -->
-
-	<!-- <bean class="org.ennva.spring_maven_tutorial.Point" id="pointC"> -->
-	<!-- <property name="x" value="20"></property> -->
-	<!-- <property name="y" value="0"></property> -->
-	<!-- </bean> -->
-
-	<bean class="org.ennva.spring_maven_tutorial.Point" id="center">
-		<property name="x" value="1"></property>
-		<property name="y" value="1"></property>
+	<bean autowire="byName" class="org.ennva.spring_maven_tutorial.Triangle">
 	</bean>
 
-	<!-- Definition of bean scope -->
-	<!-- <bean class="org.ennva.spring_maven_tutorial.Point" id="point" -->
-	<!-- scope="prototype"> -->
-	<!-- <property name="x" value="0"></property> -->
-	<!-- <property name="y" value="0"></property> -->
-	<!-- </bean> -->
-	<!-- <bean class="org.ennva.spring_maven_tutorial.Point" id="point" -->
-	<!-- scope="singleton"> -->
-	<!-- <property name="x" value="0"></property> -->
-	<!-- <property name="y" value="0"></property> -->
-	<!-- </bean> -->
+	<bean class="org.ennva.spring_maven_tutorial.Point" id="pointA">
+		<property name="x" value="0"></property>
+		<property name="y" value="0"></property>
+	</bean>
+
+	<bean class="org.ennva.spring_maven_tutorial.Point" id="pointB">
+		<property name="x" value="-20"></property>
+		<property name="y" value="0"></property>
+	</bean>
+
+	<bean class="org.ennva.spring_maven_tutorial.Point" id="pointC">
+		<property name="x" value="20"></property>
+		<property name="y" value="0"></property>
+	</bean>
 
 </beans>

@@ -1,118 +1,161 @@
-# SpringTutorial – Spring Bean Scopes in IoC Container
-In Spring application, we get the bean from the Spring container with some default configuration. Default behavior is that every beans in the Spring container are initialized when bean configuration file loaded to the JVM.  Whenever getBean is called container recognized the bean by given bean id and return that bean to the caller. One more default behavior is that every beans has only one instance in the spring container.
+# SpringTutorial – Understanding Spring bean life cycle
+The Spring Framework provides several marker interfaces to change the behavior of your bean in the container; they include <b>InitializingBean</b> and <b>DisposableBean</b>. Implementing these interfaces will result in the container calling <b>afterPropertiesSet()</b> for the former and <b>destroy()</b> for the latter to allow the bean to perform certain actions upon initialization and destruction.
 
-Spring Bean Scopes means which is used to decide which type of bean instance should be return from Spring container back to the caller. 
+When a bean is instantiated, it may be required to perform some initialization to get it into a usable state. Similarly, when the bean is no longer required and is removed from the container, some cleanup may be required.
 
-Basic Spring Bean Scopes are only two types:
-## 1. Singleton:(Default)
-Scopes a single bean definition to a single object instance per Spring IoC container. This is the default behavior of the spring container.
+Though, there is lists of the activities that take place behind the scenes between the time of bean Instantiation and its destruction, but this chapter will discuss only <b>two important bean life cycle callback methods</b> which are required at the time of bean initialization and its destruction.
 
-When a bean is a singleton, only one shared instance of the bean will be managed, and all requests for beans with an id or ids matching that bean definition will result in that one specific bean instance being returned by the Spring container.
+Beans can be notified after creation and all properties are set, and before they are destroyed and removed from the bean container. This involves specifying the callback method to be invoked by the container. This is done in XML by specifying attributes <b>init-method=”myinit”</b>, for the initialization callback, and <b>destroy-method=”mydestroy”</b>, for the destroy callback. “myinit” and “cleanUp” are names of instance methods in the bean class.
 
-We can say another way, <b>when you define a bean definition and it is scoped as a singleton</b>, then the Spring IoC container will create <b>exactly one instance</b> of the object defined by that bean definition. This single instance will be stored in a cache of such singleton beans, and <b>all subsequent requests and references</b> for that named bean will result in the <b>cached object being returned</b>.
+## Initialization callbacks
+Implementing the <b>org.springframework.beans.factory.InitializingBean</b> interface allows a bean to perform initialization work after all necessary properties on the bean are set by the container. The InitializingBean interface specifies exactly one method:
+org.springframework.beans.factory.InitializingBean interface  provide Initialization callbacks method as given below..
 
-To define a singleton <b>scope</b>, you can set the scope property to <b>singleton</b> in the bean configuration file, as shown below:
 ```
-<bean class="< Your classpath here >.Point" id="zeroPoint" scope="singleton">
-  <property name="x" value="0"></property>
-  <property name="y" value="0"></property>
-</bean>
+void afterPropertiesSet() throws Exception
 ```
 
-### Using Annotation for Bean Scope:
+Now we can implements above interface and do some initialization functionality with in this method. As below..
+
 ```
-@Service
-@Scope("singleton")
-public class Point
+public class Triangle implements InitializingBean
 {
-   private int x;
-   private int y;
-   
-   public void setX(int x){
-      this.x = x;
-   }
-
-   public void setY(int y){
-      this.y = y;
-   }
+     @Override
+     public void afterPropertiesSet() throws Exception
+     {
+       //To do some initialization works here
+       System.out.println("InitializingBean init method is called for Triangle");
+     }
 }
 ```
-Add the following configuration into beans.xml
+
+
+Generally, the use of the InitializingBean interface can be avoided (and is discouraged since it unnecessarily couples the code to Spring). A bean definition provides support for a generic initialization method to be specified. In the case of XML-based configuration metadata, this is done using the ‘init-method’ attribute. For example, the following definition:
+In the case of XML-based configuration metadata, we can use the init-method attribute to specify the name of the method that has a void no-argument signature. For example:
+
 ```
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+<bean class="< Your classpath go here >.Triangle" id="triangle" init-method="myInit"></bean>
+```
+
+Now following has myInit method in class.
+
+```
+public class Triangle
+{
+  public void myInit()
+  {
+     //To do some initialization works here
+     System.out.println("My init method is called for Triangle");
+  }
+}
+```
+
+Now using Java annotations can also be used to declare bean life cycle callbacks.
+
+```
+public class Triangle
+{
+  //init callback
+  @PostConstruct
+  public void myInit()
+  {
+     //To do some initialization works here
+     System.out.println("My init method is called for Triangle");
+  }
+}
+```
+
+## Destruction callbacks
+Implementing the <b>org.springframework.beans.factory.DisposableBean</b> interface allows a bean to get a callback when the container containing it is destroyed. The DisposableBean interface specifies one method:
+
+```
+void destroy() throws Exception
+```
+
+Now we can implements above interface and do some Destruction functionality with in this method. As below..
+
+```
+public class Triangle implements DisposableBean 
+{
+     @Override
+     public void destroy() throws Exception
+     {
+       //To do some Destruction works here
+       System.out.println("DisposableBean destroy method is called for Triangle");
+     }
+}
+```
+
+Generally, the use of the DisposableBean marker interface can be avoided (and is discouraged since it unnecessarily couples the code to Spring). A bean definition provides support for a generic destroy method to be specified. When using XML-based configuration metadata this is done via the ‘destroy-method’ attribute on the . For example, the following definition:
+In the case of XML-based configuration metadata, we can use the destroy-method attribute to specify the name of the method that has a void no-argument signature. For example:
+
+```
+<bean class="<Your classPath here >.Triangle" destroy-method="cleanUp" id="triangle"></bean>
+```
+
+Now following has cleanUp method in class.
+
+```
+public class Triangle
+{
+  public void cleanUp()
+  {
+     //To do some Destruction works here
+     System.out.println("cleanUp method is called for Triangle");
+  }
+}
+```
+
+Now using Java annotations can also be used to declare bean life cycle callbacks.
+
+
+```
+public class Triangle
+{
+  //destroy callback
+  @PreDestroy
+  public void myInit()
+  {
+     //To do some Destruction works here
+     System.out.println("cleanUp method is called for Triangle");
+  }
+}
+```
+
+
+
+## Notes
+
+1. If you are using Spring’s IoC container in a non-web application environment; for example, in a rich client desktop environment; you register a shutdown hook with the JVM. Doing so ensures a graceful shutdown and calls the relevant destroy methods on your singleton beans so that all resources are released.
+
+2. It is recommended that you do not use the InitializingBean or DisposableBean callbacks, because XML configuration gives much flexibility in terms of naming your method.
+
+## Default initialization and destroy methods
+
+If you have too many beans having initialization and or destroy methods with the same name, you don’t need to declare init-method and destroy-method on each individual bean. Instead framework provides the flexibility to configure such situation using default-init-method and default-destroy-method attributes on the <beans> element as follows
+
+### beans.xml
+
+```
+<beans default-destroy-method="cleanUp" default-init-method="myInit" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
-	<context:component-scan base-package="< Your package path here>">
-	</context:component-scan>
+  
+	<bean autowire="byName" class="com.dineshonjava.sdnext.callbackLifecycle.tutorial.Triangle" id="triangle">
+	</bean>
+  
+	<bean class="com.dineshonjava.sdnext.callbackLifecycle.tutorial.Point" id="pointA">
+  		<property name="x" value="0"></property>
+  		<property name="y" value="0"></property>
+	</bean>
+	<bean class="com.dineshonjava.sdnext.callbackLifecycle.tutorial.Point" id="pointB">
+  		<property name="x" value="-20"></property>
+  		<property name="y" value="0"></property>
+	</bean>
+	<bean class="com.dineshonjava.sdnext.callbackLifecycle.tutorial.Point" id="pointC">
+  		<property name="x" value="20"></property>
+  		<property name="y" value="0"></property>
+	</bean>
 </beans>
 ```
-Here <b>component-scan</b> element has attribute ‘base-package‘. base-package contain the base package of the Bean class.
-
-### Annotation @Service:
-Target : Class
-Description:
-Here <b>@Service</b> is stereotype annotation which declared above the class name that means this class is a bean of the spring container.
-In Spring container this bean recognized by the id “point” means that same as the class name except first letter of the class name is the small letter.
-for example: class ‘Point‘ get as ‘point‘ bean
-                    class ‘Circle‘ get as ‘circle‘ bean
-
-### Annotation @Scope:
-Target : Class
-Description:
-Here <b>@Scope</b> is annotation which declared above the class name that define the scope the bean
-
- @Scope(“singleton”)
- @Scope(“prototype”)
- 
-### NOTE : 
-This singleton is differ from the singleton pattern in Java Class. Single pattern in java mean you can create the only one instance of a that class in JVM. But In spring singleton bean scope means every container can create only single bean in the Spring IoC Container but a JVM can have multiple Spring IoC Container so JVM can multiple beans rather than bean singleton bean scope.
-
-## 2. Prototype:
-Scopes a single bean definition to any number of object instances.
-
-If scope is set to prototype, the Spring IoC container creates new bean instance of the object every time a request for that specific bean is made. 
-```
-As a rule, use the prototype scope for all state-full beans and the singleton scope for stateless beans.
-```
-
-To define a prototype scope, you can set the scope property to prototype in the bean configuration file, as shown below:
-```
-<bean class="<Your class path here>.Point" id="zeroPoint" scope="prototype">
-	<property name="x" value="0"></property>
-  	<property name="y" value="0"></property>
-</bean>
-```
-
-But at web environment spring have three more aware bean scopes as following: 
-## 3. Request Scope:
-This scopes a bean definition to an HTTP request. Only valid in the context of a web-aware Spring ApplicationContext.
-```
-<bean class="<Your class path here>.Point" id="point" scope="request"></bean>
-```
-
-## 4. Session Scope:
-This scopes a bean definition to an HTTP session. Only valid in the context of a web-aware Spring ApplicationContext.
-```
-<bean class="<Your class path here>.Point" id="point" scope="session"></bean>
-```
-
-## 5. Global Session:
-Scopes a single bean definition to the lifecycle of a global HTTP Session.
-```
-<bean class="<Your class path here>.Point" id="point" scope="globalSession"></bean>
-```
-
-The global session scope is similar to the standard HTTP Session scope (described immediately above), and really only makes sense in the context of portlet-based web applications. The portlet specification defines the notion of a global Session that is shared amongst all of the various portlets that make up a single portlet web application. Beans defined at the global session scope are scoped (or bound) to the lifetime of the global portlet Session.
-
-Please note that if you are writing a standard Servlet-based web application and you define one or more beans as having global session scope, the standard HTTP Session scope will be used, and no error will be raised.
-
-
-
-
-We can control not only the various dependencies and configuration values that are to be plugged into an object that is created from a particular bean definition, but also the scope of the objects created from a particular bean definition. This approach is very powerful and gives you the flexibility to choose the scope of the objects you create through configuration.
-
-
-
-

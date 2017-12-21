@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.ennva</groupId>
-  <artifactId>spring-maven-tutorial-step6</artifactId>
+  <artifactId>spring-maven-tutorial-step7</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>spring-maven-tutorial-step6</name>
+  <name>spring-maven-tutorial-step7</name>
   <url>http://maven.apache.org</url>
 
   <properties>
