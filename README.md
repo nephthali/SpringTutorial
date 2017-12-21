@@ -46,7 +46,9 @@ Running your example will output something like that:<br /><br />
 </div>
 
 ## Using ApplicationContextAware in Spring
+
 ### How you can access your Spring-ApplicationContext from everywhere in your Application ?
+
 Imagine we have an application (e.g. a web or swing-application) which we now want to be Spring-enabled. Ok we add the Spring libraries(spring.jar) and the Configuration-file(spring.xml) and create our Spring-beans. But there are still some old class-files which you can’t use in this way. These files still need access to the Spring-Honeypot where all the goodies exists and you don’t want to redesign your application.
 
 First create the class <b>“ApplicationContextProvider (Triangle class)”</b>. This class implements the <b>ApplicationContextAware</b>. A bean which implements the ApplicationContextAware-interface and is deployed into the context, will be called back on creation of the bean, using the interface’s <b>setApplicationContext(…)</b> method, and provided with a reference to the context, which may be stored for later interaction with the context.
@@ -55,6 +57,7 @@ The ApplicationContextAware is used when an object required. See The <b>(Rectang
 We’ll provide our beans with access to the ApplicationContext object by implementing the ApplicationContextAware interface. We’ll also use BeanNameAware interface to get the name of the bean configured in the Spring XML.
 
 ## Spring Bean Definition Inheritance Example
+
 A bean definition potentially contains a large amount of configuration information, including container specific information and constructor arguments and property values. A child bean definition inherits configuration data from a parent definition. The child definition can override some values, or add others, as needed. Using parent and child bean definitions can save a lot of typing. Effectively, this is a form of templating.
 
 <p color="red">
