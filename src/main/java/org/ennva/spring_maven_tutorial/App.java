@@ -81,7 +81,7 @@ public class App {
 		// Triangle triangle = (Triangle) context.getBean("triangle");
 		// triangle.draw();
 
-		Shape shape = (Shape) context.getBean("triangle");
+		Shape shape = (Shape) context.getBean("circle");
 		shape.draw();
 
 		/**
