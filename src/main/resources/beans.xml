@@ -9,40 +9,13 @@
 
 	<!-- Annotation wiring -->
 	<!-- <context:annotation-config></context:annotation-config> -->
-	<!-- <context:component-scan base-package="org.ennva.spring_maven_tutorial"></context:component-scan> -->
+	<context:component-scan base-package="org.ennva.spring_maven_tutorial"></context:component-scan>
 	<!-- <aop:aspectj-autoproxy></aop:aspectj-autoproxy> -->
 	<context:property-placeholder location="classpath:*.properties"></context:property-placeholder>
-
-	<bean class="org.ennva.spring_maven_tutorial.Triangle" id="triangle">
-		<property name="type" value="Triangle"></property>
-		<property name="pointA" ref="pointA"></property>
-		<property name="pointB" ref="pointB"></property>
-		<property name="pointC" ref="pointC"></property>
-	</bean>
-
-	<bean class="org.ennva.spring_maven_tutorial.Circle" id="circle">
-		<property name="type" value="Circle"></property>
-		<property name="center" ref="center"></property>
-	</bean>
-
-	<bean class="org.ennva.spring_maven_tutorial.Point" id="pointA">
-		<property name="x" value="0"></property>
-		<property name="y" value="0"></property>
-	</bean>
 
 	<bean class="org.ennva.spring_maven_tutorial.Point" id="pointB">
 		<property name="x" value="-20"></property>
 		<property name="y" value="0"></property>
-	</bean>
-
-	<bean class="org.ennva.spring_maven_tutorial.Point" id="pointC">
-		<property name="x" value="${pointC.x}"></property>
-		<property name="y" value="${pointC.y}"></property>
-	</bean>
-
-	<bean class="org.ennva.spring_maven_tutorial.Point" id="center">
-		<property name="x" value="${center.x}"></property>
-		<property name="y" value="${center.y}"></property>
 	</bean>
 
 	<!-- Bean PostProcessor -->

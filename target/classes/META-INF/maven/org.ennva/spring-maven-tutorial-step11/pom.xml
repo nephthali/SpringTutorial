@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.ennva</groupId>
-	<artifactId>spring-maven-tutorial-step10</artifactId>
+	<artifactId>spring-maven-tutorial-step11</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>spring-maven-tutorial-step10</name>
+	<name>spring-maven-tutorial-step11</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -51,6 +51,13 @@
 			<version>4.1.6.RELEASE</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -60,10 +67,10 @@
 		</dependency>
 	</dependencies>
 
-	<!-- Recipe to Add source an javadoc to your project: https://maven.apache.org/plugin-developers/cookbook/attach-source-javadoc-artifacts.html
-		With eclipse you have to run mvn goal package 1-Right click to project 2-Run
-		Maven build 3-add goal package and run 4-Download source and javadoc: Right
-		click project -> Maven -> Download source/Download javadoc 5-Update your
+	<!-- Recipe to Add source an javadoc to your project: https://maven.apache.org/plugin-developers/cookbook/attach-source-javadoc-artifacts.html 
+		With eclipse you have to run mvn goal package 1-Right click to project 2-Run 
+		Maven build 3-add goal package and run 4-Download source and javadoc: Right 
+		click project -> Maven -> Download source/Download javadoc 5-Update your 
 		project: Right click project -> Maven -> Update project -->
 	<build>
 		<plugins>
