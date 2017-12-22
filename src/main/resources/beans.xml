@@ -10,8 +10,16 @@
 	<!-- Definition of base package mapped through annotation into bean class -->
 	<context:component-scan base-package="org.ennva.spring_maven_tutorial"></context:component-scan>
 
-	<bean autowire="byName" class="org.ennva.spring_maven_tutorial.Triangle"
-		id="triangle">
+	<bean class="org.ennva.spring_maven_tutorial.Triangle" id="triangle">
+		<property name="type" value="Triangle"></property>
+		<property name="pointA" ref="pointA"></property>
+		<property name="pointB" ref="pointB"></property>
+		<property name="pointC" ref="pointC"></property>
+	</bean>
+
+	<bean class="org.ennva.spring_maven_tutorial.Circle" id="circle">
+		<property name="type" value="Circle"></property>
+		<property name="center" ref="center"></property>
 	</bean>
 
 	<bean class="org.ennva.spring_maven_tutorial.Point" id="pointA">
@@ -29,9 +37,15 @@
 		<property name="y" value="${pointC.y}"></property>
 	</bean>
 
+	<bean class="org.ennva.spring_maven_tutorial.Point" id="center">
+		<property name="x" value="${center.x}"></property>
+		<property name="y" value="${center.y}"></property>
+	</bean>
+
 	<!-- Bean PostProcessor -->
-	<bean autowire="byName"
-		class="org.ennva.spring_maven_tutorial.DisplayNameBeanPostProcessor" />
+	<!-- <bean autowire="byName" -->
+	<!-- class="org.ennva.spring_maven_tutorial.DisplayNameBeanPostProcessor" 
+		/> -->
 
 	<!-- BeanFactory PostProcessor -->
 	<bean class="org.ennva.spring_maven_tutorial.BeanFactoryPPDemo" />

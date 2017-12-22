@@ -7,8 +7,12 @@ package org.ennva.spring_maven_tutorial;
 public class Circle {
 
 	private Point center;
+	private String type;
 	
-	
+	public Circle() {
+		System.out.println("-- Circle constructor --");
+	}
+
 	/**
 	 * @param center
 	 */
@@ -23,9 +27,19 @@ public class Circle {
 	public void setCenter(Point center) {
 		this.center = center;
 	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 
 	public void draw() {
-		System.out.println("Center of circle is (" + center.getX() + ", " + center.getY() + ")");
+		System.out.println("Shape type: "+ type);
+		System.out.println("Center of" + type + " is (" + center.getX() + ", " + center.getY() + ")");
 	}
 
 }

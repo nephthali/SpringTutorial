@@ -1,166 +1,100 @@
-# SpringTutorial – BeanPostProcessor in Spring
-BeanPostProcessor is interface that tells Spring to do some processing after initialization some beans.
-This allows you to add some custom logic before and after spring bean creation.
-
-![image](https://i2.wp.com/www.dineshonjava.com/wp-content/uploads/2012/07/going-beyond-dependency-injection.jpg?w=530&ssl=1) <br /><br />
-@ImageSource-SlideShare.net
-![image](https://i1.wp.com/www.dineshonjava.com/wp-content/uploads/2012/07/beanpostprocessor-in-spring.jpg?w=530&ssl=1)<br /><br />
-@ImageSource-SlideShare.net
-
-Many processes in the IoC container were made to be extensible. A specific extensible process can be referred to as an extension point. One extension point, the <b>BeanPostProcessor</b> interface, allows the modification of a bean instance before and after the properties are set. Another extension point is the <b>BeanFactoryPostProcessor</b> interface which allows direct modification of bean definitions before a bean is instantiated.
-
-An ApplicationContext will automatically register and process a bean that implements either of these interfaces (BeanPostProcessor , BeanFactoryPostProcessor ), but a BeanFactory would have to have a BeanPostProcessor or BeanFactoryPostProcessor registered with it programatically as given below.
+# SpringTutorial – Coding To Interfaces in Spring
 
 ```
-.....
-// create BeanFactory
-ConfigurableBeanFactory  factory = new XmlBeanFactory(new FileSystemResource("spring.xml"));
-// now register some beans
-// now register any needed BeanPostProcessors
-DisplayNameBeanPostProcessor postProcessor = new DisplayNameBeanPostProcessor(); 
-factory.addBeanPostProcessor(postProcessor);
-.....
-// now start using the factory
+In our enterprise application the coding to interface very necessary & useful. We are using DAO & Service layers as interfaces in the enterprise application but its business logic implement these interfaces. If in future you want to change or adding new business logic of enterprise application you does not need to change in the view layer(DAO & Service layers). You just need add one more class that implements that interface and rewired with spring dependency injection.
 ```
 
-Since this manual registration step is not convenient, and ApplictionContexts are functionally supersets of BeanFactories, it is generally recommended that ApplicationContext variants are used when bean post-processors are needed.
+we have discussed about Dependency Injection using an Example of Drawing Class and Shape class. As given below in picture-
 
-A <b>BeanPostProcessor</b> gives you a chance to process an instance of a bean created by the IoC container after it’s instantiation and then again after the initialization life cycle event has occurred on the instance. You could use this to process fields that were set, perform validation on a bean, or even look up values from a remote resource to set on the bean as defaults.
+![image](https://i2.wp.com/www.dineshonjava.com/wp-content/uploads/2012/07/dependencies-injection.jpg?w=530&ssl=1)<br /><br />
 
+
+In above picture we will see that second part name Drawing Class Dependent on Shape Class Actually shape is not a class Its an interface which implemented by three classes as Triangle, Circle & Rectangle.
+
+In our Drawing Application class(App.java) we are using draw() method of the Triangle class. As below-
 ```
-Spring’s different AOP proxies for caching, transactions, etc. are all applied by BeanPostProcessor .
-```
-
-Lets see the following example which describe the BeanPostProcessor activity in <b>DisplayNameBeanPostProcessor.java</b>
-
-### DisplayNameBeanPostProcessor.java
-
-```
-package < Your classPath Here >;
-
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-
-public class DisplayNameBeanPostProcessor implements BeanPostProcessor 
-{  
-@Override
-public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException 
-{
-System.out.println("In After bean Initialization method. Bean name is "+beanName);
-return bean;
-}
-
-@Override
-public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException 
-{
-System.out.println("In Before bean Initialization method. Bean name is "+beanName);
-return bean;
-}
-}
+ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+Triangle triangle = (Triangle) context.getBean("triangle");
+triangle.draw();
 ```
 
-DisplayNameBeanPostProcessor bean in the Spring IoC Container is automatically called when before and after any beans (triangle, pointA, pointB, pointC) creation. In the below configuration file has the DisplayNameBeanPostProcessor bean
-
-### beans.xml
-
+Here Drawing Application knows that it using draw() method of Triangle bean. If we want to use the draw() method of the circle class then we have to write the following code in the Drawing Application-
 ```
-<bean autowire="byName" class="< Your classPath here >.Triangle" id="triangle"></bean>
-  
-<bean class="< Your classPath here >" id="pointA">
-  <property name="x" value="0"></property>
-  <property name="y" value="0"></property>
-</bean>
-  
-<bean class="< Your classPath here >" id="pointB">
-  <property name="x" value="-20"></property>
-  <property name="y" value="0"></property>
-</bean>
-  
-<bean class="< Your classPath here >" id="pointC">
-   <property name="x" value="20"></property>
-   <property name="y" value="0"></property>
-</bean>
-  
-<bean class="< Your classPath here >.DisplayNameBeanPostProcessor"></bean>
-</beans>
+ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+Circle circle= (Circle) context.getBean("circle");
+circle.draw();
 ```
 
-### Notes on example output
-There are four beans (triangle, pointA, pointB, pointC) in the Spring IoC Container and both methods of the BeanPostProcessor interface is executes four times.
-
-## BeanFactoryPostProcessor in Spring
-
-BeanFactoryPostProcessor works on the bean definitions or configuration meta data of the bean before beans are actually created. Spring provides multiple BeanFactoryPostProcessor beans, so it invoked to resolve run time dependencies such reading value from external property files. In Spring application, BeanFactoryPostProcessor can modify the definition of any bean.
-
-## Customizing bean factories with BeanPostProcessors Vs BeanFactoryPostProcessors
-1. A <b>bean post-processor</b> is   a    java   class   which   implements    the org.springframework.beans.factory.config.BeanPostProcessor interface, which consists of two callback methods
-(postProcessAfterInitialization(Object bean, String beanName) & postProcessBeforeInitialization(Object bean, String beanName)).
-
-When such a class is registered as a post-processor with the BeanFactory, for each bean instance that is created by the BeanFactory, the post-processor will get a callback from the BeanFactory before any initialization methods (afterPropertiesSet and any declared init method) are called, and also afterwords.
-
-2. A <b>bean factory post-processor</b> is a java class which implements the org.springframework.beans.factory.config.BeanFactoryPostProcessor interface. It is executed manually (in the case of the BeanFactory) or automatically (in the case of the ApplicationContext) to apply changes of some sort to an entire BeanFactory, after it has been constructed.
- Spring includes a number of pre-existing bean factory post-processors, such as given below
-
-<b>PropertyResourceConfigurer</b> and <b>PropertyPlaceHolderConfigurer</b> – implemented as a bean factory post-processor, is used to externalize some property values from a BeanFactory definition, into another separate file in Java Properties format. This is useful to allow to developer to declare some key property as properties file. As given below example show the database connection related information in the following property file.
-
-<b>databaseConfig.properties</b>
-```
-jdbc.driverClassName=com.mysql.jdbc.Driver
-jdbc.url=jdbc:mysql://davproductionDB:3306
-jdbc.username=root
-jdbc.password=root
-```
-
-Now in the bean configuration file has the <b>dataSource</b> bean as below.
-
-```
-<bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
-  <property name="driverClassName" value="${jdbc.driverClassName}">
-  <property name="url" value="${jdbc.url}">
-  <property name="username" value="${jdbc.username}">
-  <property name="password" value="${jdbc.password}">
-</property></property></property></property></bean>
-```
-
-To use this with a BeanFactory, the bean factory post-processor is manually executed on it:
-
-```
-XmlBeanFactory factory = new XmlBeanFactory(new FileSystemResource("spring.xml"));
-PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();
-cfg.setLocation(new FileSystemResource("databaseConfig.properties"));
-cfg.postProcessBeanFactory(factory);
-```
-
-To use this with a ApplicationContext, the bean factory post-processor is automatically executed on it:
+If want to use the true power of spring framework then we have to use the coding to interface technique. In coding to interface Drawing Application(DrawingApp.java) does not care about that the draw() method of which classes is called. Both classes just implements the Shape interface with one method draw(). And after that Drawing Class have the following code-
 
 ```
 ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+Shape shape = (Shape) context.getBean("shape");
+shape.draw();
 ```
 
-###  BeanFactoryPPDemo.java
+### shape.java
 ```
-package < Your classPath Here>;
+package <You classpath Here >;
 
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
-import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
-import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
-import org.springframework.core.io.FileSystemResource;
-
-public class BeanFactoryPPDemo implements BeanFactoryPostProcessor  
+public interface Shape
 {
-@Override
-public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException
- {
- PropertyPlaceholderConfigurer cfg = new PropertyPlaceholderConfigurer();  
- cfg.setLocation(new FileSystemResource("shape.properties"));  
- cfg.postProcessBeanFactory(beanFactory); 
- System.out.println("Bean factory post processor is initialized");
- }
+   void draw();
 }
 ```
 
-### For PropertyResourceConfigurer example look at https://www.programcreek.com/java-api-examples/index.php?source_dir=winlet-master/dao/src/main/java/com/aggrepoint/dao/DaoScannerConfigurer.java:
-1. DaoScannerConfigurer.java
-2. MapperScannerConfigurer.java
-3. SpringRestClientScannerConfigurer.java
+### beans.xml
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-destroy-method="cleanUp" default-init-method="myInit"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+	bean class="< Your classpath here >.Triangle" id="triangle">
+	 <property name="pointA" ref="pointA"></property>
+	 <property name="pointB" ref="pointB"></property>
+	 <property name="pointC" ref="pointC"></property>
+	</bean>
+	  
+	<bean class="< Your classpath here >.Circle" id="circle">
+	 <property name="center" ref="center"></property>
+	</bean>
+	  
+	<bean class="< Your classpath here >.Point" id="pointA">
+	 <property name="x" value="0"></property>
+	 <property name="y" value="0"></property>
+	</bean>
+	  
+	<bean class="< Your classpath here >.Point" id="pointB">
+	 <property name="x" value="-20"></property>
+	 <property name="y" value="0"></property>
+	</bean>
+	  
+	<bean class="< Your classpath here >.Point" id="pointC">
+	 <property name="x" value="20"></property>
+	 <property name="y" value="0"></property>
+	</bean>
+	  
+	<bean class="< Your classpath here >.Point" id="center">
+	 <property name="x" value="10"></property>
+	 <property name="y" value="10"></property>
+	</bean>
+</beans>
+```
+
+Now To draw a Triangle. From our drawing class App.java:
+```
+ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+Shape shape = (Shape) context.getBean("triangle");
+shape.draw();
+```
+
+Now To draw a Circle. From our drawing class App.java:
+```
+ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+Shape shape = (Shape) context.getBean("circle");
+shape.draw();
+```

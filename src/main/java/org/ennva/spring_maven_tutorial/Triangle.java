@@ -1,6 +1,6 @@
 package org.ennva.spring_maven_tutorial;
 
-public class Triangle {
+public class Triangle implements Shape {
 
 	private String type;
 	private Point pointA;
@@ -11,16 +11,12 @@ public class Triangle {
 		System.out.println("-- Triangle Bean constructor --");
 	}
 
-	/**
-	 * @param type
-	 *            the type to set
-	 */
-	public void setType(String type) {
-		this.type = type;
-	}
-
 	public String getType() {
 		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public Point getPointA() {
@@ -48,7 +44,7 @@ public class Triangle {
 	}
 
 	public void draw() {
-		System.out.println(type + " Triangle Drawn");
+		System.out.println("Shape type: "+ type);
 		System.out.println("PointA is (" + pointA.getX() + ", " + pointA.getY() + ")");
 		System.out.println("PointB is (" + pointB.getX() + ", " + pointB.getY() + ")");
 		System.out.println("PointC is (" + pointC.getX() + ", " + pointC.getY() + ")");
