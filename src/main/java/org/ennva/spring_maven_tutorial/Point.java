@@ -51,12 +51,12 @@ public class Point {
 	
 	/* Initialization callbacks method */
 	public void myInit() {
-		System.out.println("-- My init method is called for Triangle --");
+		System.out.println("-- My init method is called for Point --");
 	}
 
 	/* Destruction callbacks method */
 	public void cleanUp() {
-		System.out.println("-- cleanUp method is called for Triangle --");
+		System.out.println("-- cleanUp method is called for Point --");
 	}
 
 }

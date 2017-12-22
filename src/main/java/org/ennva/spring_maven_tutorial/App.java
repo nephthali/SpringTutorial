@@ -81,8 +81,9 @@ public class App {
 		// Triangle triangle = (Triangle) context.getBean("triangle");
 		// triangle.draw();
 
-		Shape shape = (Shape) context.getBean("triangle");
-		shape.draw();
+		// Shape shape = (Shape) context.getBean("triangle");
+		Circle circle = context.getBean("circle", Circle.class);
+		circle.draw();
 
 		/**
 		 * In order to Destroy the Bean Object, in this case a singleton scope bean
