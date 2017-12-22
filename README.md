@@ -313,6 +313,7 @@ The Four Types of Spring Stereotype Components and Their Purposes:
 
 #### Annotation @Component:
 **Target**: Class
+
 **Description**:
 @Component is a generic stereotype for any Spring-managed component. @Repository, @Service, and @Controller are specializations of @Component for more specific use cases, for example, in the persistence, service, and presentation layers, respectively.
 <br /><br />
