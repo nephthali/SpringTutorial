@@ -160,7 +160,103 @@ public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) 
 }
 ```
 
-### For PropertyResourceConfigurer example look at https://www.programcreek.com/java-api-examples/index.php?source_dir=winlet-master/dao/src/main/java/com/aggrepoint/dao/DaoScannerConfigurer.java:
+### For PropertyResourceConfigurer example look at 
+[https://www.programcreek.com/java-api-examples/index.php?source_dir=winlet-master/dao/src/main/java/com/aggrepoint/dao/DaoScannerConfigurer.java](https://www.programcreek.com/java-api-examples/index.php?source_dir=winlet-master/dao/src/main/java/com/aggrepoint/dao/DaoScannerConfigurer.java)
+
 1. DaoScannerConfigurer.java
 2. MapperScannerConfigurer.java
 3. SpringRestClientScannerConfigurer.java
+
+## Using properties files in Spring with MessageSource
+ApplicationContext has some extra functionalities in Spring Framework which Internatiolization, Messaging, Properties file etc.
+
+1. Using org.springframework.context.MessageSource:
+Its using read message in the class files and display message as the output, below given example show how to use properties files with org.springframework.context.MessageSource.
+
+**myMessage.properties**
+
+```
+greeting=Hello Dinesh!
+drawing.circle=Circle is Drawn!
+```
+
+Now to read this properties file in the spring application we have to use the a class name **“org.springframework.context.support.ResourceBundleMessageSource”** this help to pick the properties files into to the application, this define as bean in the spring configuration file(spring.xml). As follows
+
+
+**spring.xml**
+
+```
+<bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource">
+ <property name="basenames">
+  <list>
+      <value>myMessages</value>
+  </list>
+ </property>
+</bean>
+```
+
+Now **“messageSource”** using as property of the bean circle as follows:
+
+```
+/**
+ * @author Dinesh Rajput
+ *
+ */
+@Component
+public class Circle
+{
+ @Autowired
+ private Point center;
+ @Autowired
+ private MessageSource messageSource;
+
+ /**
+  * @param messageSource the messageSource to set
+  */
+ public void setMessageSource(MessageSource messageSource) 
+ {
+  this.messageSource = messageSource;
+ }
+
+ /**
+  * @param center the center to set
+  */
+ public void setCenter(Point center)
+ {
+  this.center = center;
+ }
+
+ public void draw()
+ {
+System.out.println(this.messageSource.getMessage("drawing.circle", null, "Default Drawing Greeting", null));
+ }
+}
+```
+
+In the above class file two property “center” and “messageSource” which autowired with the bean name “circle“. We get the message of the properties file in the draw() method by using following method
+
+
+## Using properties files in Spring with PropertyPlaceholderConfigurer
+If you need to read properties file in your Spring application all you need is to configure a PropertyPlaceholderConfigurer bean in your application context.
+Following example shows how to read property values from a properties file named myMessage.properties. This file needs to be in your classpath so Spring can find it.
+
+**myMessage.properties**
+
+```
+X-axis=20
+Y-axis=0
+```
+
+**beans.xml**
+
+```
+<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" id="placeholderConfig">    
+	<property name="location" value="classpath:myMessage.properties"></property>
+</bean>  
+<bean class="com.dineshonjava.sdnext.tutorial.property.Point" id="center">
+ 	<property name="x" value="${X-axis}"></property>
+ 	<property name="y" value="${Y-axis}"></property>
+</bean>
+```
+
+
