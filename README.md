@@ -1,4 +1,4 @@
-# SpringTutorial – Annotations in Spring and Based Configuration
+# SpringTutorial – Event Handling
 Spring Framework also provide an another feature to promote loose coupling ,which is Application Event handling
 
 Using Events, an Event publisher object can communicate with other objects without even knowing which object is listen.and event listener can work to event without knowing which object publish the events.
