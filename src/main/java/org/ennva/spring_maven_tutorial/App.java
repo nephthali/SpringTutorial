@@ -77,16 +77,11 @@ public class App
 //    	circle.draw();
     	
     	/**
-    	 * Bean Scope Test: Singleton and Prototype
+    	 * BeanPostProcessor Test
     	 */
-		// Point point1 = (Point) context.getBean("zeroPoint");
-		// Point point2 = (Point) context.getBean("zeroPoint");
-    	Point point1 = (Point) context.getBean("point");
-    	Point point2 = (Point) context.getBean("point");
-    	if(point1 == point2)
-    	 System.out.println("In Singleton Demo >> Both are same objects values are.. \n" + "n1. point1= "+point1+"\nn2. point2= "+point2);
-    	else
-    	  System.out.println("In Prototype Demo >> Both are different objects values are.. \n" + "n1. point1= "+point1+"\nn2. point2= "+point2);
+    	Triangle triangle = (Triangle) context.getBean("triangle");
+    	triangle.draw();
+		
     	 
     	
     	/** In order to Destroy the Bean Object, in this case a singleton scope bean

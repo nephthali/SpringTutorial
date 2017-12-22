@@ -1,9 +1,6 @@
 package org.ennva.spring_maven_tutorial;
 
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
-
-public class Triangle implements InitializingBean, DisposableBean {
+public class Triangle {
 
 	private String type;
 	private Point pointA;
@@ -57,24 +54,14 @@ public class Triangle implements InitializingBean, DisposableBean {
 		System.out.println("PointC is (" + pointC.getX() + ", " + pointC.getY() + ")");
 	}
 
-	/* Overwritten Method of InitializingBean interface */
-	public void afterPropertiesSet() throws Exception {
-		System.out.println("-- InitializingBean init method is called for Triangle --");
-	}
-
-	/* Overwritten Method of DisposableBean interface */
-	public void destroy() throws Exception {
-		System.out.println("-- DisposableBean destroy method is called for Triangle --");
-	}
-
 	/* Initialization callbacks method */
 	public void myInit() {
-//		System.out.println("-- My init method is called for Triangle --");
+		// System.out.println("-- My init method is called for Triangle --");
 	}
 
 	/* Destruction callbacks method */
 	public void cleanUp() {
-//		System.out.println("-- cleanUp method is called for Triangle --");
+		// System.out.println("-- cleanUp method is called for Triangle --");
 	}
 
 }

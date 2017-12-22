@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
  * @author nephthali
  *
  */
-@Service
+//@Service
 //@Scope("singleton") The defaut
-@Scope("prototype")
+//@Scope("prototype")
 public class Point {
 	
 	private int x;
