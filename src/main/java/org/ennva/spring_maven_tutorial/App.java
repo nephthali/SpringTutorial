@@ -1,5 +1,7 @@
 package org.ennva.spring_maven_tutorial;
 
+import org.ennva.spring_maven_tutorial.model.Circle;
+import org.ennva.spring_maven_tutorial.service.ShapeService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -82,8 +84,19 @@ public class App {
 		// triangle.draw();
 
 		// Shape shape = (Shape) context.getBean("triangle");
-		Circle circle = context.getBean("circle", Circle.class);
-		circle.draw();
+		// Circle circle = context.getBean("circle", Circle.class);
+		// circle.setName("My circle");
+		// System.out.println(circle.getName());
+		// circle.draw();
+
+		// ShapeService
+		ShapeService service = context.getBean("shapeService", ShapeService.class);
+		//service.getCircle().setName("Dummy Circle");
+		service.getCircle().setNameAndReturning("Dummy circle return");
+		//String name = service.getCircle().setNameAndReturning("Dummy circle return");
+		System.out.println(service.getCircle().getName());
+		// System.out.println(service.getTriangle().getName());
+		//System.out.println("name: "+name);
 
 		/**
 		 * In order to Destroy the Bean Object, in this case a singleton scope bean

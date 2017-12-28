@@ -1,3 +1,13 @@
-/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/beanfactory/src/main/java/org/ennva/spring_maven_tutorial/App.java
-/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/beanfactory/src/main/java/org/ennva/spring_maven_tutorial/Employee.java
-/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/beanfactory/src/main/java/org/ennva/spring_maven_tutorial/Triangle.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/MyEventListener.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/Employee.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/DrawEvent.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/BeanFactoryPPDemo.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/Shape.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/App.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/aop/LoggingAspect.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/model/Triangle.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/Point.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/DisplayNameBeanPostProcessor.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/aop/Loggable.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/model/Circle.java
+/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/aop/src/main/java/org/ennva/spring_maven_tutorial/service/ShapeService.java
