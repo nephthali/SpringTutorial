@@ -1,333 +1,244 @@
-# SpringTutorial – Spring JDBC Framework
+# SpringTutorial – Spring Transaction Management
+A transaction manager is the part of an application that is responsible for coordinating transactions across one or more resources. In the Spring framework, the transaction manager is effectively the root of the transaction system. Hence, if you want to enable transactions on a component in Spring, you typically create a transaction manager bean and pass it to the  Component.
 
- In old JDBC API, when we working with database using **old JDBC framework** then we have to take care lots of the nonsense responsibilities or it becomes cumbersome to write unnecessary code to handle exceptions, opening and closing database connections etc. But **Spring JDBC Framework** takes care of all the low-level details starting from opening the connection, prepare and execute the SQL statement, process exceptions, handle transactions and finally close the connection.
- 
-So what you have do is just define connection parameters and specify the SQL statement to be executed and do the required work for each iteration while fetching data from the database.
+![image](https://i2.wp.com/www.dineshonjava.com/wp-content/uploads/2012/12/spring-transaction-management.png?resize=530%2C182&ssl=1)
 
-Spring provides JDBC Templates to access the data from the database with ease. <br />
-Spring provides **org.springframework.jdbc.core.JdbcTemplate** which basically take cares about all your
-connection establishment to the database post query work eg closing statement and connections.
+It is critical in any form of applications that will interact with the database.
+A database transaction is a sequence of actions that are treated as a single unit of work. These actions should either complete entirely or take no effect at all. Transaction management is an important part of and RDBMS oriented enterprise applications to ensure data integrity and consistency. The concept of transactions can be described with following four key properties described as ACID:
 
-## The package hierarchy
-The Spring Framework’s JDBC abstraction framework consists of four different packages, namely **core, dataSource, object, and support.**
+* **Atomicity**: A transaction should be treated as a single unit of operation which means either the entire sequence of operations is successful or unsuccessful.<br />
+* **Consistency**: This represents the consistency of the referential integrity of the database, unique primary keys in tables etc.<br />
+* **Isolation**: There may be many transactions processing with the same data set at the same time, each transaction should be isolated from others to prevent data corruption.<br />
+* **Durability**: Once a transaction has completed, the results of this transaction have to be made permanent and cannot be erased from the database due to system failure.<br />
 
-* The **org.springframework.jdbc.core** package contains the JdbcTemplate class and its various callback interfaces, plus a variety of related classes.
+A simple transaction is usually issued to the database system in a language like SQL in this form:
 
-* The **org.springframework.jdbc.datasource** package contains a utility class for easy DataSource access, and various simple DataSource implementations that can be used for testing and running unmodified JDBC code outside of a J2EE container. The utility class provides static methods to obtain connections from JNDI and to close connections if necessary. It has support for thread-bound connections, e.g. for use with DataSourceTransactionManager.
+* Begin the transaction
+* Execute several queries (although any updates to the database aren’t actually visible to the outside world yet)
+* Commit the transaction (updates become visible if the transaction is successful)
 
-* The **org.springframework.jdbc.object** package contains classes that represent RDBMS queries, updates, and stored procedures as thread safe, reusable objects. This approach is modeled by JDO, although of course objects returned by queries are “disconnected” from the database. This higher level of JDBC abstraction depends on the lower-level abstraction in the org.springframework.jdbc.core package.
+Spring framework provides an abstract layer on top of different underlying transaction management APIs. The Spring’s transaction support aims to provide an alternative to EJB transactions by adding transaction capabilities to POJOs. **Spring supports both programmatic and declarative transaction management**. EJBs requires an application server, but **Spring transaction management can be implemented without a need of application server**.
 
-* The **org.springframework.jdbc.support** package is where you find the SQLException translation functionality and some utility classes.
+### Local transaction managers:
 
-Exceptions thrown during JDBC processing are translated to exceptions defined in the **org.springframework.dao** package. This means that code using the Spring JDBC abstraction layer does not need to implement JDBC or RDBMS-specific error handling. All translated exceptions are unchecked giving you the option of catching the exceptions that you can recover from while allowing other exceptions to be propagated to the caller.
+A local transaction manager is a transaction manager that can coordinate transactions over a single resource only. In this case, the implementation of the transaction manager is typically embedded in the resource itself and the Spring transaction manager is just a thin wrapper around this built-in transaction manager.
 
-### JdbcTemplate
-The JdbcTemplate class is the central class in the JDBC core package. It simplifies the use of JDBC since <u>**it handles the creation and release of resources**</u>. This helps to avoid common errors such as forgetting to always close the connection. <u>**It executes the core JDBC workflow like statement creation and execution, leaving application code to provide SQL and extract results**</u>. This class executes SQL queries, update statements or stored procedure calls, imitating iteration over ResultSets and extraction of returned parameter values. <u>**It also catches JDBC exceptions and translates them to the generic, more informative, exception hierarchy defined in the org.springframework.dao package**</u>.
+Local transaction management can be useful in a centralized computing environment where application components and resources are located at a single site, and transaction management only involves a local data manager running on a single machine. Local transactions are easier to be implemented.
 
-Code using the JdbcTemplate only need to implement callback interfaces, giving them a clearly defined contract. The PreparedStatementCreator callback interface creates a prepared statement given a Connection provided by this class, providing SQL and any necessary parameters. The same is true for the CallableStatementCreator interface which creates callable statement. The RowCallbackHandler interface extracts values from each row of a ResultSet.
+### Global transaction managers:
 
-The JdbcTemplate can be used within a DAO implementation via direct instantiation with a DataSource reference, or be configured in a Spring IOC container and given to DAOs as a bean reference.
+A global transaction manager is a transaction manager that can coordinate transactions over multiple resources. In this case, you cannot rely on the transaction manager built into the resource itself. Instead, you require an external system, sometimes called a transaction processing monitor (TP monitor), that is capable of coordinating transactions across different resources.
 
-**Note**: The DataSource should always be configured as a bean in the Spring IoC container, in the first case given to the service directly, in the second case to the prepared template.
+Global transaction management is required in a distributed computing environment where all the resources are distributed across multiple systems. In such a case transaction management needs to be done both at local and global levels. A distributed or a global transaction is executed across multiple systems, and its execution requires coordination between the global transaction management system and all the local data managers of all the involved systems.
 
-**Note**: Instances of the JdbcTemplate class are threadsafe once configured. So you can configure a single instance of a JdbcTemplate and then safely inject this shared reference into multiple DAOs.
+### Programmatic vs. Declarative:
 
-### NamedParameterJdbcTemplate
-NamedParameterJdbcTemplate wraps a JdbcTemplate to provide named parameters instead of the traditional JDBC “?” placeholders. This approach provides better documentation and ease of use when you have multiple parameters for an SQL statement.Named parameters improves readability and are easier to maintain. See the full Example…
+Spring supports two types of transaction management:
+
+#### Programmatic transaction management:
+
+This means that you have manage the transaction with the help of programming. That gives you extreme flexibility, but it is difficult to maintain.
+
+#### Declarative transaction management:
+
+This means you separate transaction management from the business code. You only use annotations or XML based configuration to manage the transactions.
+
+**Declarative transaction management** is preferable over **programmatic transaction management** though it is less flexible than programmatic transaction management, which allows you to control transactions through your code. But **as a kind of crosscutting concern, declarative transaction management can be modularized with the AOP approach**. Spring supports declarative transaction management through the Spring AOP framework.
+
+The key to the Spring transaction abstraction is the notion of a transaction strategy. A **transaction strategy** is defined by the **org.springframework.transaction.PlatformTransactionManager** interface, shown below:
 
 ```
-public void create(String name, Integer age, Long salary) {
-      String SQL = "INSERT INTO Employee (name, age, salary) VALUES (:name, :age, :salary)";
-      Map namedParameters = new HashMap();   
-      namedParameters.put("name", name);   
-      namedParameters.put("age", age);
-      namedParameters.put("salary", salary);
-      namedParameterJdbcTemplate.update(SQL, namedParameters);
-System.out.println("Created Record Name = " + name + " Age = " + age+ " Salary = " + salary);
+public interface PlatformTransactionManager {
+
+    TransactionStatus getTransaction(TransactionDefinition definition)
+        throws TransactionException;
+
+    void commit(TransactionStatus status) throws TransactionException;
+
+    void rollback(TransactionStatus status) throws TransactionException;
 }
 ```
 
-### SimpleJdbcTemplate
+<table class="src" border="1">
+<tbody>
+<tr>
+<th class="fivepct">S.N.</th>
+<th>Method &amp; Description</th>
+</tr>
+<tr>
+<td>1</td>
+<td><b>TransactionStatus getTransaction(TransactionDefinition definition)</b><br>
+This method returns a currently active transaction or create a new one, according to the specified propagation behavior.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><b>void commit(TransactionStatus status)</b><br>
+This method commits the given transaction, with regard to its status.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><b>void rollback(TransactionStatus status)</b><br>
+This method performs a rollback of the given transaction.</td>
+</tr>
+</tbody>
+</table>
 
-The SimpleJdbcTemplate combines the most frequently used operations of **JdbcTemplate and NamedParameterJdbcTemplate**. See the full Example…
+**org.springframework.transaction.TransactionDefinition** interface specifies:
 
-The SimpleJdbcTemplate **has all the features of old JdbcTemplate** and also support some features of Java 5 i.e **varargs and autoboxing**. It best suited when you need not to access all the feature of JdbcTemplate. It has a simpler API and basically construct to support java 5.Thats why it has more method to exploit varargs.
-
-The **getJdbcOperations()** method is used to access those methods which are defined in JdbcTemplate. You have to call these method on SimpleJdbcTemplate . **The main drawback is that you need to cast these methods as the methods on JdbcOperations interface are not generic**.
-
-Here are few examples to show how to use SimpleJdbcTemplate query() methods to query or extract data from database. **In JdbcTemplate query(), you need to manually cast the returned result to desire object type, and pass an Object array as parameters. In SimpleJdbcTemplate, it is more user friendly and simple**.
-
-**Note**: The SimpleJdbcTemplate isn’t a replacement for JdbcTemplate, it’s just a java5-friendly supplement to it. 
-
-**JdbcTemplate Style:-**
-
-```
-// classic JdbcTemplate-style...
-private JdbcTemplate jdbcTemplate;
-
-public void setDataSource(DataSource dataSource) {
-    this.jdbcTemplate = new JdbcTemplate(dataSource);
-}
-
-public Actor findActor(String specialty, int age) {
-
-    String sql = "select id, first_name, last_name from T_ACTOR" + 
-            " where specialty = ? and age = ?";
+* **Isolation**: the degree of isolation this transaction has from the work of other transactions. For example, can this transaction see uncommitted writes from other transactions?
+* **Propagation**: normally all code executed within a transaction scope will run in that transaction. However, there are several options specifying behavior if a transactional method is executed when a transaction context already exists: for example, simply continue running in the existing transaction (the common case); or suspending the existing transaction and creating a new transaction. Spring offers all of the transaction options familiar from EJB CMT.
+* **Timeout**: how long this transaction may run before timing out (and automatically being rolled back by the underlying transaction infrastructure).
+* **Read-only status**: a read-only transaction does not modify any data. Read-only transactions can be a useful optimization in some cases (such as when using Hibernate).
     
-    RowMapper mapper = new RowMapper() {
-        public Actor mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Actor actor = new Actor();
-            actor.setId(rs.getLong("id"));
-            actor.setFirstName(rs.getString("first_name"));
-            actor.setLastName(rs.getString("last_name"));
-            return actor;
-        }
-    };
-
-    
-    // notice the wrapping up of the argumenta in an array
-    return (Actor) jdbcTemplate.queryForObject(sql, new Object[] {specialty, age}, mapper);
+```
+public interface TransactionDefinition {
+   int getPropagationBehavior();
+   int getIsolationLevel();
+   String getName();
+   int getTimeout();
+   boolean isReadOnly();
 }
 ```
 
-**Same thing in the form of SimplrJdbcTemplate style:-**
+<table class="src" border="1">
+<tbody>
+<tr>
+<th class="fivepct">S.N.</th>
+<th>Method &amp; Description</th>
+</tr>
+<tr>
+<td>1</td>
+<td><b>int getPropagationBehavior()</b><br>
+This method returns the propagation behavior. Spring offers all of the transaction propagation options familiar from EJB CMT.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><b>int getIsolationLevel()</b><br>
+This method returns the degree to which this transaction is isolated from the work of other transactions.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><b>String getName()</b><br>
+This method returns the name of this transaction.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><b>int getTimeout()</b><br>
+This method returns the time in seconds in which the transaction must complete.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><b>boolean isReadOnly()</b><br>
+This method returns whether the transaction is read-only.</td>
+</tr>
+</tbody>
+</table>
+
+Following are the possible values for isolation level:
+
+<table class="src" border="1">
+<tbody>
+<tr>
+<th class="fivepct">S.N.</th>
+<th>Propagation &amp; Description</th>
+</tr>
+<tr>
+<td>1</td>
+<td><b>TransactionDefinition.PROPAGATION_MANDATORY</b><br>
+Support a current transaction; throw an exception if no current transaction exists.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><b>TransactionDefinition.PROPAGATION_NESTED </b><br>
+Execute within a nested transaction if a current transaction exists.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><b>TransactionDefinition.PROPAGATION_NEVER </b><br>
+Do not support a current transaction; throw an exception if a current transaction exists.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><b>TransactionDefinition.PROPAGATION_NOT_SUPPORTED </b><br>
+Do not support a current transaction; rather always execute non-transactionally.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><b>TransactionDefinition.PROPAGATION_REQUIRED </b><br>
+Support a current transaction; create a new one if none exists.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><b>TransactionDefinition.PROPAGATION_REQUIRES_NEW </b><br>
+Create a new transaction, suspending the current transaction if one exists.</td>
+</tr>
+<tr>
+<td>7</td>
+<td><b>TransactionDefinition.PROPAGATION_SUPPORTS </b><br>
+Support a current transaction; execute non-transactionally if none exists.</td>
+</tr>
+<tr>
+<td>8</td>
+<td><b>TransactionDefinition.TIMEOUT_DEFAULT </b><br>
+Use the default timeout of the underlying transaction system, or none if timeouts are not supported.</td>
+</tr>
+</tbody>
+</table>
+
+The **org.springframework.transaction.TransactionStatus** interface provides a simple way for transactional code to control transaction execution and query transaction status. The concepts should be familiar, as they are common to all transaction APIs:
 
 ```
-// SimpleJdbcTemplate-style...
-private SimpleJdbcTemplate simpleJdbcTemplate;
+public interface TransactionStatus extends SavepointManager {
 
-public void setDataSource(DataSource dataSource) {
-    this.simpleJdbcTemplate = new SimpleJdbcTemplate(dataSource);
-}
+    boolean isNewTransaction();
 
-public Actor findActor(String specialty, int age) {
+    boolean hasSavepoint();
 
-    String sql = "select id, first_name, last_name from T_ACTOR" + 
-            " where specialty = ? and age = ?";
-    RowMapper mapper = new RowMapper() {  
-        public Actor mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Actor actor = new Actor();
-            actor.setId(rs.getLong("id"));
-            actor.setFirstName(rs.getString("first_name"));
-            actor.setLastName(rs.getString("last_name"));
-            return actor;
-        }
-    };
+    void setRollbackOnly();
 
-    // notice the use of varargs since the parameter values now come 
-    // after the RowMapper parameter
-    return this.simpleJdbcTemplate.queryForObject(sql, mapper, specialty, age);
-}
-```
+    boolean isRollbackOnly();
 
-**Note**:
-The SimpleJdbcTemplate class only offers a subset of the methods exposed on the JdbcTemplate class. If you need to use a method from the JdbcTemplate that is not defined on the SimpleJdbcTemplate, you can always access the underlying JdbcTemplate by calling the **getJdbcOperations()** method on the SimpleJdbcTemplate, which then allows you to invoke the method that you want. The only downside is that the methods on the JdbcOperations interface are not generic, so you are back to casting and so on.
+    void flush();
 
-### SimpleJdbcInsert and SimpleJdbcCall
+    boolean isCompleted();
 
-SimpleJdbcInsert and SimpleJdbcCall **optimize database metadata to limit the amount of necessary configuration**. This approach simplifies coding so that you only need to provide the name of the table or procedure and provide a map of parameters matching the column names. **This only works if the database provides adequate metadata**. If the database doesn’t provide this metadata, you will have to provide explicit configuration of the parameters.
-
-**RDBMS Objects including MappingSqlQuery, SqlUpdate and StoredProcedure** requires you to create reusable and thread-safe objects during initialization of your data access layer. This approach is modeled after JDO Query wherein you define your query string, declare parameters, and compile the query. Once you do that, execute methods can be called multiple times with various parameter values passed in.
-
-### Configuring DataSource
-
-**Spring obtains a connection to the database through a DataSource**. A DataSource is part of the JDBC specification and is a generalized connection factory. It allows a container or a framework to hide connection pooling and transaction management issues from the application code. **As a developer, you need not know details about how to connect to the database; that is the responsibility of the administrator that sets up the datasource. You most likely fill both roles as you develop and test code, but you do not necessarily have to know how the production data source is configured**.
-
-When using Spring’s JDBC layer, you obtain a data source from JNDI or you configure your own with a connection pool implementation provided by a third party. Popular implementations are **Apache Jakarta Commons DBCP and C3P0**. Implementations in the Spring distribution are meant only for testing purposes and do not provide pooling.
-
-### Data Access Object (DAO)
-
-DAO stands for data access object which is **commonly used for database interaction**. DAOs exist to provide a means to read and write data to the database and they should expose this functionality through an interface by which the rest of the application will access them.
-
-The Data Access Object (DAO) support in Spring makes it easy to work with data access technologies like **JDBC, Hibernate, JPA or JDO** in a consistent way.
-
-**DataSourceUtils**:<br />
-The DataSourceUtils class is a convenient and powerful helper class that provides static methods to obtain connections from JNDI and close connections if necessary. It supports thread-bound connections with, for example, **DataSourceTransactionManager**.
-
-**SmartDataSource**:<br />
-The SmartDataSource interface should be implemented by classes that can provide a connection to a relational database. It extends the DataSource interface to allow classes using it to query whether the connection should be closed after a given operation. This usage is efficient when you know that you will reuse a connection.
-
-**AbstractDataSource**:<br />
-AbstractDataSource is an abstract base class for Spring’s DataSource implementations that implements code that is common to all DataSource implementations. **You extend the AbstractDataSource class if you are writing your own DataSource implementation**.
-
-**SingleConnectionDataSource**:<br />
-The SingleConnectionDataSource class is an implementation of the SmartDataSource interface that wraps a single Connection that is not closed after each use. Obviously, **this is not multi-threading capable**.
-
-If any client code calls close in the assumption of a pooled connection, as when using persistence tools, set the suppressClose property to true. This setting returns a close-suppressing proxy wrapping the physical connection. Be aware that you will not be able to cast this to a native Oracle Connection or the like anymore.
-
-This is primarily a test class. For example, **it enables easy testing of code outside an application server**, in conjunction with a simple JNDI environment. In contrast to DriverManagerDataSource, it reuses the same connection all the time, avoiding excessive creation of physical connections.
-
-**DriverManagerDataSource**:
-The DriverManagerDataSource class is an implementation of the standard DataSource interface that configures a plain JDBC driver through bean properties, and returns a new Connection every time.
-
-This implementation **is useful for test and stand-alone environments outside of a Java EE container**, either as a DataSource bean in a Spring IoC container, or in conjunction with a simple JNDI environment. Pool-assuming Connection.close() calls will simply close the connection, so any DataSource-aware persistence code should work. However, using JavaBean-style connection pools such as commons-dbcp is so easy, even in a test environment, that it is almost always preferable to use such a connection pool over DriverManagerDataSource.
-
-**DataSourceTransactionManager**:<br />
-The DataSourceTransactionManager class is a PlatformTransactionManager implementation for single JDBC datasources. It binds a JDBC connection from the specified data source to the currently executing thread, potentially allowing for one thread connection per data source.
-
-Application code is required to retrieve the JDBC connection through DataSourceUtils.getConnection(DataSource) instead of Java EE’s standard DataSource.getConnection. It throws unchecked org.springframework.dao exceptions instead of checked SQLExceptions. All framework classes like JdbcTemplate use this strategy implicitly. If not used with this transaction manager, the lookup strategy behaves exactly like the common one – it can thus be used in any case.
-
-The DataSourceTransactionManager class supports custom isolation levels, and timeouts that get applied as appropriate JDBC statement query timeouts. To support the latter, application code must either use JdbcTemplate or call the DataSourceUtils.applyTransactionTimeout(..) method for each created statement.
-
-This implementation can be used instead of JtaTransactionManager in the single resource case, as it does not require the container to support JTA. Switching between both is just a matter of configuration, if you stick to the required connection lookup pattern. JTA does not support custom isolation levels!
-
-### Example of connection to database NEPHDB
-Let see how to create a database table Employee in our database DAVDB. we assume you are working with MySQL database, if you work with any other database then you can change your DDL and SQL queries accordingly
-
-```
-CREATE TABLE Employee(
-   EMPID   INT NOT NULL AUTO_INCREMENT,
-   NAME VARCHAR(20) NOT NULL,
-   AGE  INT NOT NULL,
-   SALARY BIGINT NOT NULL,
-   PRIMARY KEY (ID)
-);
-```
-
-You obtain a connection with **DriverManagerDataSource** as you typically obtain a JDBC connection. Specify the fully qualified classname of the JDBC driver so that the **DriverManager** can load the driver class.<br />
-**Note**: Only use the **DriverManagerDataSource** class should only be used for testing purposes since it does not provide pooling and will perform poorly when multiple requests for a connection are made.<br />
-Now we need to supply a **DataSource to the JdbcTemplate** so it can configure itself to get database access. Here is an example of how to configure a DriverManagerDataSource in Java code.
-
-```
-DriverManagerDataSource dataSource = new DriverManagerDataSource();
-dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-dataSource.setUrl("jdbc:mysql://localhost:3306/NEPHDB");
-dataSource.setUsername("root");
-dataSource.setPassword("password");
-```
-
-Here is the corresponding XML configuration:
-
-```
-<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" id="dataSource">
-   <property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
-   <property name="url" value="jdbc:mysql://localhost:3306/NEPHDB"></property>
-   <property name="username" value="root"></property>
-   <property name="password" value="password"></property>
-</bean>
-```
-
-The following examples show the basic connectivity and configuration for **DBCP** and **C3P0**. To learn about more options that help control the pooling features, see the product documentation for the respective connection pooling implementations.
-
-**DBCP configuration:**
-
-```
-<bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
-    <property name="driverClassName" value="${jdbc.driverClassName}"></property>
-    <property name="url" value="${jdbc.url}"></property>
-    <property name="username" value="${jdbc.username}"></property>
-    <property name="password" value="${jdbc.password}"></property>
-</bean>
-
-<context:property-placeholder location="jdbc.properties"></context:property-placeholder>
-```
-**C3P0 configuration:**
-
-```
-<bean class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close" id="dataSource">
-    <property name="driverClass" value="${jdbc.driverClassName}"></property>
-    <property name="jdbcUrl" value="${jdbc.url}"></property>
-    <property name="user" value="${jdbc.username}"></property>
-    <property name="password" value="${jdbc.password}"></property>
-</bean>
-
-<context:property-placeholder location="jdbc.properties"></context:property-placeholder>
-```
-##### Step 1: Create your database as follows, Here I am using MySQL as database.
-
-```
-mysql> create database NEPHDB;
-```
-
-##### Step 2: Create the Java Project and add Spring framework jar library to it.
-![image](https://i1.wp.com/www.dineshonjava.com/wp-content/uploads/2012/12/jdbcDemo.jpg?w=530&ssl=1)
-
-
-##### Step 3: Create Employee class for table ’employee’ in the ‘DAVDB’ database.
-See **Employee.java**
-
-##### Step 4: Create Employee DAO interface for the abstarct functionality with employee table.
-See **EmployeeDao**
-
-##### Step 6: Create EmployeeMapper class which map the row of table ( the Employee class ), which implements the org.springframework.jdbc.core.RowMapper interface of the jdbc core API.
-See **EmployeeMapper.java**
-
-##### Step 7:Create the configuration file for the bean configuration
-See **beans.xml**
-
-##### Step 8: Finally we have to create main class for execution this application
-See **App.java**
-
-### Implementing RowMapper(An interface used by JdbcTemplate for mapping rows of a ResultSet on a per-row basis.)
-```
-public interface RowMapper<T> {
-T mapRow(ResultSet rs, int rowNum)
-throws SQLException;
-}
-```
-**1.Custom RowMapper**:
-In general, It’s always recommended to implement the RowMapper interface to create a custom RowMapper to suit your needs..
-
-```
-public class EmployeeMapper implements RowMapper {  
- public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {  
-  Employee employee = new Employee();  
-  employee.setEmpid(rs.getInt("empid"));  
-  employee.setName(rs.getString("name"));  
-  employee.setAge(rs.getInt("age"));  
-  employee.setSalary(rs.getLong("salary"));  
-  return employee;  
- }  
-} 
-```
-
-Pass it to **queryForObject()** method, the returned result will call your custom mapRow() method to match the value into the property.
-
-```
-public Employee getEmployee(Integer empid) {
-   String SQL = "SELECT * FROM Employee WHERE empid = ?";
-   Employee employee = (Employee) jdbcTemplateObject.queryForObject(SQL, new Object[]{empid}, new EmployeeMapper());
-    return employee;
 }
 ```
 
-Without a custum RowMapper, **BeanPropertyRowMapper** can be use
+<table class="src" border="1">
+<tbody>
+<tr>
+<th class="fivepct">S.N.</th>
+<th>Method &amp; Description</th>
+</tr>
+<tr>
+<td>1</td>
+<td><b>boolean hasSavepoint()</b><br>
+This method returns whether this transaction internally carries a savepoint, that is, has been created as nested transaction based on a savepoint.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><b>boolean isCompleted()</b><br>
+This method returns whether this transaction is completed, that is, whether it has already been committed or rolled back.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><b>boolean isNewTransaction()</b><br>
+This method returns true in case the present transaction is new.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><b>boolean isRollbackOnly()</b><br>
+This method returns whether the transaction has been marked as rollback-only.</td>
+</tr>
+<tr>
+<td>5</td>
+<td><b>void setRollbackOnly() </b><br>
+This method sets the transaction rollback-only.</td>
+</tr>
+</tbody>
+</table>
 
-```
-public Employee getEmployee(Integer empid) {
-   String SQL = "SELECT * FROM Employee WHERE empid = ?";
-   Employee employee = (Employee) jdbcTemplateObject.queryForObject(SQL, new Object[]{empid}, new BeanPropertyRowMapper(Employee.class));
-    return employee;
-}
-```
 
-### DAO Support Classes in Spring
 
-To make it easier to work with a variety of data access technologies such as **JDBC, JDO and Hibernate** in a consistent way, Spring provides a set of abstract DAO classes that one can extend
 
-* **JdbcDaoSupport –**
-
-It is superclass for JDBC data access objects. Requires a DataSource to be provided; in turn, this class provides a JdbcTemplate instance initialized from the supplied DataSource to subclasses.
-
-* **HibernateDaoSupport –**
-
-It is superclass for Hibernate data access objects. Requires a SessionFactory to be provided; in turn, this class provides a HibernateTemplate instance initialized from the supplied SessionFactory to subclasses. Can alternatively be initialized directly via a HibernateTemplate, to reuse the latters settings like SessionFactory, flush mode, exception translator, and so forth.
-
-* ** JdoDaoSupport –**
-
-It is super class for JDO data access objects. Requires a PersistenceManagerFactory to be provided; in turn, this class provides a JdoTemplate instance initialized from the supplied PersistenceManagerFactory to subclasses.
-
-* ** JpaDaoSupport –**
-
-It is super class for JPA data access objects. Requires a EntityManagerFactory to be provided; in turn, this class provides a JpaTemplate
-
-In Spring JDBC Framework there are many DAO support classes which help to reduce the configuration of **JdbcTemplate, SimpleJdbcTemplate and NamedParamJdbcTemplate** with dataSource object.
-
-For **JdbcTemplate:**<br />
-org.springframework.jdbc.core.support.JdbcDaoSupport 
-
-For **SimpleJdbcTemplate:**<br />
-org.springframework.jdbc.core.simple.SimpleJdbcDaoSupport
-
-For **NamedParamJdbcTemplate:**<br />
-org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport 
