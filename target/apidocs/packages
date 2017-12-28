@@ -1,4 +1,7 @@
 org.ennva.spring_maven_tutorial
 org.ennva.spring_maven_tutorial.aop
 org.ennva.spring_maven_tutorial.service
+org.ennva.spring_maven_tutorial.utils
 org.ennva.spring_maven_tutorial.model
+org.ennva.spring_maven_tutorial.dao
+org.ennva.spring_maven_tutorial.dao.impl

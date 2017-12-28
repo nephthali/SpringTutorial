@@ -1,6 +1,11 @@
 package org.ennva.spring_maven_tutorial;
 
+import java.util.List;
+
+import org.ennva.spring_maven_tutorial.dao.EmployeeDao;
+import org.ennva.spring_maven_tutorial.dao.impl.EmployeeDaoImpl;
 import org.ennva.spring_maven_tutorial.model.Circle;
+import org.ennva.spring_maven_tutorial.model.Employee;
 import org.ennva.spring_maven_tutorial.service.ShapeService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -90,13 +95,37 @@ public class App {
 		// circle.draw();
 
 		// ShapeService
-		ShapeService service = context.getBean("shapeService", ShapeService.class);
-		//service.getCircle().setName("Dummy Circle");
-		service.getCircle().setNameAndReturning("Dummy circle return");
-		//String name = service.getCircle().setNameAndReturning("Dummy circle return");
-		System.out.println(service.getCircle().getName());
+		// ShapeService service = context.getBean("shapeService", ShapeService.class);
+		// service.getCircle().setName("Dummy Circle");
+		// service.getCircle().setNameAndReturning("Dummy circle return");
+		// String name = service.getCircle().setNameAndReturning("Dummy circle return");
+		// System.out.println(service.getCircle().getName());
 		// System.out.println(service.getTriangle().getName());
-		//System.out.println("name: "+name);
+		// System.out.println("name: "+name);
+
+		/**
+		 * Dao test
+		 */
+		EmployeeDao empDao = context.getBean("employeeDaoImpl", EmployeeDaoImpl.class);
+		// System.out.println("------Records Creation--------");
+		// empDao.create("Dinesh", 25, 50000l);
+		// empDao.create("Anamika", 23, 30000l);
+		// empDao.create("Nimmo", 24, 30020l);
+		// empDao.create("Adesh", 24, 30011l);
+		// empDao.create("Vinesh", 22, 20011l);
+		//
+		// System.out.println("------Listing Multiple Records--------");
+		// List<Employee> employees = empDao.listEmployees();
+		// for (Employee employee : employees) {
+		// System.out.print(employee + "\n");
+		// }
+		//
+		// System.out.println("----Updating Record with EMPID = 2 -----");
+		// empDao.update(2, 20);
+		int id = 6;
+		System.out.println("----Listing Record with ID = "+ id +" -----");
+		Employee employee = empDao.getEmployee(id);
+		System.out.print(employee + "\n");
 
 		/**
 		 * In order to Destroy the Bean Object, in this case a singleton scope bean
