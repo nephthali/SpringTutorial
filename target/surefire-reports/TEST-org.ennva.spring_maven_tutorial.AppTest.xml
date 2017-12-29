@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="org.ennva.spring_maven_tutorial.AppTest" time="0.005" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="org.ennva.spring_maven_tutorial.AppTest" time="0.003" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="/opt/java/jdk1.8.0_144/jre/lib/amd64"/>
     <property name="java.vm.version" value="25.144-b01"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
-    <property name="maven.multiModuleProjectDirectory" value="/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/jdbc"/>
+    <property name="maven.multiModuleProjectDirectory" value="/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/hibernate"/>
     <property name="java.vendor.url" value="http://java.oracle.com/"/>
     <property name="path.separator" value=":"/>
     <property name="guice.disable.misplaced.annotation.check" value="true"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.os.patch.level" value="unknown"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="user.dir" value="/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/jdbc"/>
+    <property name="user.dir" value="/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/hibernate"/>
     <property name="java.runtime.version" value="1.8.0_144-b01"/>
     <property name="java.awt.graphicsenv" value="sun.awt.X11GraphicsEnvironment"/>
     <property name="java.endorsed.dirs" value="/opt/java/jdk1.8.0_144/jre/lib/endorsed"/>
@@ -25,7 +25,7 @@
 "/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="os.name" value="Linux"/>
-    <property name="classworlds.conf" value="/home/nephthali/Desktop/Projects/javaProjects/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf4132679430593406597.tmp"/>
+    <property name="classworlds.conf" value="/home/nephthali/Desktop/Projects/javaProjects/.metadata/.plugins/org.eclipse.m2e.launching/launches/m2conf45739089084661299.tmp"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
     <property name="java.library.path" value="/usr/java/packages/lib/amd64:/usr/lib64:/lib64:/lib:/usr/lib"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
@@ -53,12 +53,12 @@
     <property name="securerandom.source" value="file:/dev/./urandom"/>
     <property name="sun.boot.class.path" value="/opt/java/jdk1.8.0_144/jre/lib/resources.jar:/opt/java/jdk1.8.0_144/jre/lib/rt.jar:/opt/java/jdk1.8.0_144/jre/lib/sunrsasign.jar:/opt/java/jdk1.8.0_144/jre/lib/jsse.jar:/opt/java/jdk1.8.0_144/jre/lib/jce.jar:/opt/java/jdk1.8.0_144/jre/lib/charsets.jar:/opt/java/jdk1.8.0_144/jre/lib/jfr.jar:/opt/java/jdk1.8.0_144/jre/classes"/>
     <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="maven.home" value="/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/jdbc/EMBEDDED"/>
+    <property name="maven.home" value="/home/nephthali/Desktop/Projects/javaProjects/spring-maven-tutorial/hibernate/EMBEDDED"/>
     <property name="file.separator" value="/"/>
     <property name="java.vendor.url.bug" value="http://bugreport.sun.com/bugreport/"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="org.ennva.spring_maven_tutorial.AppTest" name="testApp" time="0.005"/>
+  <testcase classname="org.ennva.spring_maven_tutorial.AppTest" name="testApp" time="0.003"/>
 </testsuite>

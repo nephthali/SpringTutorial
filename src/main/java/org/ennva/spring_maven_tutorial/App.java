@@ -122,10 +122,32 @@ public class App {
 		//
 		// System.out.println("----Updating Record with EMPID = 2 -----");
 		// empDao.update(2, 20);
-		int id = 6;
-		System.out.println("----Listing Record with ID = "+ id +" -----");
-		Employee employee = empDao.getEmployee(id);
-		System.out.print(employee + "\n");
+		// int id = 6;
+		// System.out.println("----Listing Record with ID = "+ id +" -----");
+		// Employee employee = empDao.getEmployee(id);
+		// System.out.print(employee + "\n");
+
+		/**
+		 * Test Spring Hibernate
+		 */
+		Employee employee = new Employee();
+		employee.setName("Dinesh");
+		employee.setAge(25);
+		employee.setSalary(50000l);
+		System.out.println("------Records Creation--------\n");
+		empDao.createEmployee(employee);
+		
+		// System.out.println("------Listing Multiple Records--------\n");
+		// List<Employee> employees = empDao.listEmployees();
+		// for (Employee emp : employees) {
+		// System.out.print(emp);
+		// }
+		// int id = 3;
+		// System.out.println("------find one Records--------Employee: "+id+"\n");
+		// Employee employeeGot = empDao.getEmployee(id);
+		// System.out.print(employeeGot);
+		// System.out.println("------Delete one Records--------");
+		// empDao.delete(employeeGot);
 
 		/**
 		 * In order to Destroy the Bean Object, in this case a singleton scope bean

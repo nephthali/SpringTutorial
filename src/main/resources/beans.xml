@@ -12,6 +12,7 @@
 	<!-- Annotation wiring -->
 	<context:annotation-config></context:annotation-config>
 	<context:component-scan base-package="org.ennva.spring_maven_tutorial.dao.impl"></context:component-scan>
+	<context:component-scan base-package="org.ennva.spring_maven_tutorial.utils"></context:component-scan>
 	<!-- <context:property-placeholder location="classpath:*.properties"></context:property-placeholder> -->
 
 	<!-- Enable AspectJ style of Spring AOP -->
@@ -49,13 +50,63 @@
 		<property name="maxActive" value="5"></property>
 	</bean>
 
-	<bean id="employeeDaoImpl" class="org.ennva.spring_maven_tutorial.dao.impl.EmployeeDaoImpl">
-		<property name="jdbcTemplate" ref="jdbcTemplateObject" />
+	<!-- Creating session factory -->
+	<bean class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+		id="sessionFactory">
+		<property name="dataSource" ref="dataSource" />
+
+		<property name="packagesToScan">
+			<list>
+				<value>org.ennva.spring_maven_tutorial.model</value>
+			</list>
+		</property>
+
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">false</prop>
+			</props>
+		</property>
 	</bean>
 
-	<bean  class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplateObject">
-		<property name="dataSource" ref="dataSource"></property>
+	<bean id="employeeDaoImpl"
+		class="org.ennva.spring_maven_tutorial.dao.impl.EmployeeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+		<!-- <property name="jdbcTemplate" ref="jdbcTemplateObject" /> -->
 	</bean>
+
+	<!-- <tx:annotation-driven /> -->
+	<!-- <bean id="transactionManager" -->
+	<!-- class="org.springframework.orm.hibernate4.HibernateTransactionManager"> -->
+	<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate"> -->
+	<!-- <property name="sessionFactory" ref="sessionFactory" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean name="openSessionInViewInterceptor" -->
+	<!-- class="org.springframework.orm.hibernate4.support.OpenSessionInViewInterceptor"> -->
+	<!-- <property name="sessionFactory"> -->
+	<!-- <ref bean="sessionFactory" /> -->
+	<!-- </property> -->
+	<!-- <property name="flushModeName" value="FLUSH_AUTO" /> -->
+	<!-- </bean> -->
+
+	<!-- sessionFactory bean -->
+	<!-- <bean class="org.springframework.orm.hibernate4.HibernateTransactionManager" 
+		id="transactionManager"> -->
+	<!-- <property name="sessionFactory" ref="sessionFactory"></property> -->
+	<!-- </bean> -->
+
+	<!-- jdbcTemplate bean -->
+	<!-- <bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplateObject"> -->
+	<!-- <property name="dataSource" ref="dataSource"></property> -->
+	<!-- </bean> -->
 
 	<!-- <bean name="triangle" class="org.ennva.spring_maven_tutorial.model.Triangle"> -->
 	<!-- <property name="name" value="triangle name" /> -->

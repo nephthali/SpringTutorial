@@ -3,6 +3,7 @@ org/ennva/spring_maven_tutorial/model/Circle.class
 org/ennva/spring_maven_tutorial/Shape.class
 org/ennva/spring_maven_tutorial/BeanFactoryPPDemo.class
 org/ennva/spring_maven_tutorial/aop/Loggable.class
+org/ennva/spring_maven_tutorial/utils/SuperHibernateDaoSupport.class
 org/ennva/spring_maven_tutorial/DisplayNameBeanPostProcessor.class
 org/ennva/spring_maven_tutorial/dao/impl/EmployeeDaoImpl.class
 org/ennva/spring_maven_tutorial/utils/EmployeeMapper.class

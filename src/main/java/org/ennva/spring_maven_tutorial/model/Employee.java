@@ -1,14 +1,29 @@
 package org.ennva.spring_maven_tutorial.model;
 
-//Bean or Model or POJO(The least restricted class)
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Employee")
 public class Employee {
 
+	@Id
+	@Column(name="empid")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int empid;
-	private String name;
-	private int age;
-	private long salary;
-
 	
+	@Column(name="name")
+	private String name;
+	
+	@Column(name="age")
+	private int age;
+	
+	@Column(name="salary")
+	private long salary;
 	
 	public int getEmpid() {
 		return empid;
@@ -42,8 +57,6 @@ public class Employee {
 		this.salary = salary;
 	}
 	
-	
-
 	@Override
 	public String toString() {
 		return "Employee [empid=" + empid + ", name=" + name + ", age=" + age + ", salary=" + salary + "]";
@@ -54,12 +67,12 @@ public class Employee {
 	 * Theses method control Initialization and destruction of my Bean class and
 	 * need to be add to metadata xml file .
 	 */
-	public void myInit() {
-		System.out.println("-- Object Initialized --");
-	}
-
-	public void myDestroy() {
-		System.out.println("-- Object Destroyed --");
-	}
+	// public void myInit() {
+	// System.out.println("-- Object Initialized --");
+	// }
+	//
+	// public void myDestroy() {
+	// System.out.println("-- Object Destroyed --");
+	// }
 
 }
